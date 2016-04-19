@@ -1,0 +1,17 @@
+{
+    "name": "@APP_ID@",
+    "description": "description of WayFinder-Studio",
+    "architecture": "@CLICK_ARCH@",
+    "title": "@APP_NAME@",
+    "hooks": {
+        "WayFinder-Studio": {
+            "apparmor": "WayFinder-Studio.apparmor",
+            "desktop":  "WayFinder-Studio.desktop"
+        }
+    },
+    "version": "0.1",
+    "maintainer": "Benjamin Flanagin <bflanagin@vagueentertainment.com>",
+    "framework" : "ubuntu-sdk-15.04.4"
+}
+
+
