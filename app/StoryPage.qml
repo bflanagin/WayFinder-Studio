@@ -9,7 +9,7 @@ Item {
         anchors.topMargin:10
         x:10
         id:title
-        text:i18n.tr("Settings:")
+        text:i18n.tr("Setup:")
         color:"white"
         font.pixelSize: parent.height * 0.03
     }
@@ -35,7 +35,7 @@ Item {
             height:parent.height
 
             Text {
-                text:i18n.tr("Store Name: ")
+                text:i18n.tr("Title: ")
                 color:"white"
                 font.pixelSize: parent.height * 0.02
                 TextField {
@@ -46,7 +46,7 @@ Item {
             }
 
             Text {
-                text:i18n.tr("Artist Name: ")
+                text:i18n.tr("Author: ")
                 color:"white"
                 font.pixelSize: parent.height * 0.02
                 TextField {
@@ -55,42 +55,33 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
+            Row {
+                id:row1
+                width:parent.width
+                spacing:parent.width * 0.20
 
-            Rectangle {
-                width:parent.width * 0.96
-                height: 3
-                color:UbuntuColors.darkAubergine
-            }
-
-            Item {
-                    width:parent.width
-                    height:discription.height
             Text {
-                text:i18n.tr("Discription: ")
+                text:i18n.tr("Date: ")
                 color:"white"
                 font.pixelSize: settingscolumn.height * 0.02
-
-                TextArea {
-                    id:discription
+                TextField {
+                    id:date
                     anchors.left:parent.right
-                    width:(settingscolumn.width - parent.width) * 0.96
-                    height:parent.height * 8
-                    anchors.top: parent.top
-                    wrapMode:Text.WordWrap
+                    width:(row1.width - parent.width) * 0.20
+                   anchors.verticalCenter: parent.verticalCenter
                 }
-            }
-
             }
 
             Text {
                 text:i18n.tr("Contact Info: ")
                 color:"white"
-                font.pixelSize: parent.height * 0.02
+                font.pixelSize: settingscolumn.height * 0.02
                 TextField {
                     anchors.left:parent.right
-                    width:(settingscolumn.width - parent.width) * 0.96
+                    width:(row1.width - parent.width) * 0.62
                     anchors.verticalCenter: parent.verticalCenter
                 }
+            }
             }
 
             Rectangle {
@@ -104,7 +95,7 @@ Item {
                 height:20
                 spacing:30
                 Text {
-                    text:i18n.tr("Public: ")
+                    text:i18n.tr("Publish: ")
                     font.pixelSize: parent.width * 0.03
                     color:"white"
 
@@ -116,17 +107,6 @@ Item {
                     }
                 }
 
-                Text {
-                    text:i18n.tr("Commissions: ")
-                    font.pixelSize: parent.width * 0.03
-                    color:"white"
-                CheckBox {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left:parent.right
-                    id:commisions
-                }
-
-                }
 
                 Text {
                     text:i18n.tr("Donations: ")
@@ -149,8 +129,8 @@ Item {
 
             Item {
                     width:parent.width
-                    height:comoptscolumn.height
-                    visible: if(commisions.checked == 1 | donations.checked == 1 ) {true} else {false}
+                    height:comoptscolumn.height + comoptscolumn.y
+                    visible: if(donations.checked == 1 ) {true} else {false}
 
 
             Text {
@@ -168,7 +148,7 @@ Item {
                     anchors.leftMargin:parent.width * 0.95
                     spacing:30
                     width:settingscolumn.width - parent.width
-                    //height:settingscolumn.height - parent.y
+                    //height:coinbase.height+ coinbase.y
 
 
                     Text {
@@ -176,6 +156,7 @@ Item {
                         color:"white"
                         font.pixelSize: settingscolumn.height * 0.025
                         TextField {
+                            id:paypal
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
@@ -187,6 +168,7 @@ Item {
                         color:"white"
                         font.pixelSize: settingscolumn.height * 0.025
                         TextField {
+                            id:patreon
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
@@ -198,11 +180,14 @@ Item {
                         color:"white"
                         font.pixelSize: settingscolumn.height * 0.025
                         TextField {
+                            id:coinbase
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
+
+
 
                 }
 
@@ -212,61 +197,111 @@ Item {
 
             }
 
+            Rectangle {
+                visible: if(donations.checked == 1 ) {true} else {false}
+                width:parent.width * 0.96
+                height: 3
+                color:UbuntuColors.darkAubergine
+            }
+
+            Image {
+                id:sample
+                anchors.horizontalCenter: settingscolumn.horizontalCenter
+                width:(settingscolumn.width - x) * 0.70
+                height:(settingscolumn.height - y) * 0.85
+                source:"graphics/newImageAdd.png"
+                fillMode:Image.PreserveAspectFit
+
+            }
+
+            Text {
+                anchors.horizontalCenter:settingscolumn.horizontalCenter
+
+
+                text:i18n.tr("Cover Art")
+                color:"white"
+                font.pixelSize: parent.width * 0.03
+            }
+
 
         }
 
     }
+    Text {
+        anchors.top:parent.top
+        anchors.topMargin:10
+        anchors.left:storybg.left
+        text:i18n.tr("About:")
+        color:"white"
+        font.pixelSize: parent.height * 0.03
+    }
 
-    Item {
+    Rectangle {
+        id:storybg
         anchors.top:title.bottom
         anchors.topMargin:10
         anchors.right:parent.right
-        anchors.rightMargin:20
-        width:parent.width * 0.50
+        anchors.rightMargin:10
+        width:parent.width * 0.55
         height:(parent.height - title.height) * 0.95
+        radius:8
+        border.color:UbuntuColors.darkAubergine
+        color:UbuntuColors.ash
 
-        Image {
-            id:avatar
-            anchors.top:parent.top
-            anchors.topMargin:10
+        Column {
+            id:storycolumn
             anchors.left:parent.left
+            anchors.horizontalCenter: parent.horizontalCenter
+            width:parent.width * 0.96
+            height: parent.height
+            clip:true
+            spacing:10
 
-            width:parent.width * 0.20
-            height:parent.width * 0.20
-            source:"graphics/newImageAdd.png"
+            Item {
+                width:storycolumn.width
+                height:summary.height+summary.y
+
+            Text {
+                text:i18n.tr("Summary:")
+                color:"white"
+                x:storycolumn.width * 0.01
+                font.pixelSize: storycolumn.height * 0.03
+                TextArea {
+                    id:summary
+                    anchors.top:parent.bottom
+
+                    width:storycolumn.width * 0.98
+                    height:storycolumn.height / 3
+                }
+            }
+
+            }
+
+
+            Item {
+                width:storycolumn.width
+                height:storySoFar.height +storySoFar.y
+
+            Text {
+                text:i18n.tr("Story so far:")
+                color:"white"
+                x:storycolumn.width * 0.01
+                font.pixelSize: storycolumn.height * 0.03
+                TextArea {
+                    id:storySoFar
+                    anchors.top:parent.bottom
+
+                    width:storycolumn.width * 0.98
+                    height:storycolumn.height / 1.75
+                }
+            }
+
+            }
 
         }
-        Text {
-           anchors.horizontalCenter:avatar.horizontalCenter
-            anchors.top:avatar.bottom
-            anchors.topMargin:10
-            text:i18n.tr("Artist's Avatar")
-            color:"white"
-            font.pixelSize: parent.width * 0.02
-        }
 
-    Image {
-        id:sample
-        anchors.top:parent.top
-        anchors.topMargin:10
-        anchors.right:parent.right
-        anchors.rightMargin:20
-        width:parent.width * 0.70
-        height:parent.height * 0.85
-        source:"graphics/newImageAdd.png"
 
-    }
-
-    Text {
-        anchors.horizontalCenter:sample.horizontalCenter
-        anchors.top:sample.bottom
-        anchors.topMargin:10
-        text:i18n.tr("Sample Work")
-        color:"white"
-        font.pixelSize: parent.width * 0.03
-    }
-
-    }
+}
 
     FileDialog {
         id: fileDialog

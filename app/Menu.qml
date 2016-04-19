@@ -34,7 +34,7 @@ Item {
             id:story
             width:parent.width -1
             height:parent.height / 15
-            title:i18n.tr("Scenario")
+            title:i18n.tr("Adventure")
             state:"Unselected"
             MouseArea {
                 anchors.fill:parent

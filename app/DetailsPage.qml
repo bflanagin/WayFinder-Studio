@@ -150,15 +150,14 @@ Item {
             Item {
                     width:parent.width
                     height:comoptscolumn.height
-                    visible: if(commisions.checked == 1 | donations.checked == 1 ) {true} else {false}
 
 
             Text {
                  id:comtitle
                 text:i18n.tr("Payment Options: ")
                 color:"white"
-                font.pixelSize: settingscolumn.height * 0.02
-
+                font.pixelSize: parent.height * 0.02
+                   visible: if(commisions.checked == 1 | donations.checked == 1 ) {true} else {false}
 
                 Column {
                     id:comoptscolumn
@@ -168,13 +167,13 @@ Item {
                     anchors.leftMargin:parent.width * 0.95
                     spacing:30
                     width:settingscolumn.width - parent.width
-                    //height:settingscolumn.height - parent.y
+                    height:settingscolumn.height - parent.y
 
 
                     Text {
                         text:i18n.tr("Pay Pal: ")
                         color:"white"
-                        font.pixelSize: settingscolumn.height * 0.025
+                        font.pixelSize: parent.height * 0.025
                         TextField {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
@@ -185,7 +184,7 @@ Item {
                     Text {
                         text:i18n.tr("Patreon: ")
                         color:"white"
-                        font.pixelSize: settingscolumn.height * 0.025
+                        font.pixelSize: parent.height * 0.025
                         TextField {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
@@ -196,7 +195,7 @@ Item {
                     Text {
                         text:i18n.tr("CoinBase: ")
                         color:"white"
-                        font.pixelSize: settingscolumn.height * 0.025
+                        font.pixelSize: parent.height * 0.025
                         TextField {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96

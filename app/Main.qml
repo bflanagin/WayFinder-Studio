@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "Main.js" as Scripts
 
 /*!
     \brief MainView with a Label and Button elements.
@@ -222,13 +223,13 @@ MainView {
             width:parent.width * 0.95
             height:parent.height * 0.94
             anchors.centerIn: parent
-            title:"Store"
+            title:"Story"
             state:"pos1"
 
             tab:1
             z:if(selectedtab == 1) {2} else {0}
 
-            StorePage {
+            StoryPage {
                 width:parent.width * 0.99
                 height:parent.height * 0.95
                 anchors.centerIn: parent
@@ -240,33 +241,34 @@ MainView {
             width:parent.width * 0.95
             height:parent.height * 0.94
             anchors.centerIn: parent
-            title:"Gallery"
+            title:"Maps"
             state:"pos2"
             tab:2
             z:if(selectedtab == 2) {2} else {0}
 
-            GalleryPage {
+            MapPage {
+                z:if(selectedtab == 2) {1} else {0}
                 width:parent.width * 0.99
                 height:parent.height * 0.95
                 anchors.centerIn: parent
             }
         }
-        Pages {
+        /*Pages {
             id:storyData
             width:parent.width * 0.95
             height:parent.height * 0.94
             anchors.centerIn: parent
-            title:"Comissions"
+            title:"OverView"
             state:"pos3"
             tab:3
             z:if(selectedtab == 3) {2} else {0}
 
-            CommissionsPage {
+            DetailsPage {
                 width:parent.width * 0.99
                 height:parent.height * 0.95
                 anchors.centerIn: parent
             }
-        }
+        } */
 
         }
 

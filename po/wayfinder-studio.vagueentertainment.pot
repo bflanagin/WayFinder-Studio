@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 18:39-0500\n"
+"POT-Creation-Date: 2016-04-19 07:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,62 @@ msgstr ""
 msgid "  Review:"
 msgstr ""
 
+#: ../app/DetailsPage.qml:12 ../app/StorePage.qml:12
+msgid "Settings:"
+msgstr ""
+
+#: ../app/DetailsPage.qml:38 ../app/StorePage.qml:38
+msgid "Store Name: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:49 ../app/StorePage.qml:49
+msgid "Artist Name: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:69 ../app/StorePage.qml:69
+msgid "Discription: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:86 ../app/StorePage.qml:86 ../app/StoryPage.qml:76
+msgid "Contact Info: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:107 ../app/StorePage.qml:107
+msgid "Public: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:120 ../app/Footer.qml:69 ../app/StorePage.qml:120
+msgid "Commissions: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:132 ../app/StorePage.qml:132 ../app/StoryPage.qml:112
+msgid "Donations: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:157 ../app/StorePage.qml:158 ../app/StoryPage.qml:138
+msgid "Payment Options: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:174 ../app/StorePage.qml:175 ../app/StoryPage.qml:155
+msgid "Pay Pal: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:185 ../app/StorePage.qml:186 ../app/StoryPage.qml:167
+msgid "Patreon: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:196 ../app/StorePage.qml:197 ../app/StoryPage.qml:179
+msgid "CoinBase: "
+msgstr ""
+
+#: ../app/DetailsPage.qml:242 ../app/StorePage.qml:243
+msgid "Artist's Avatar"
+msgstr ""
+
+#: ../app/DetailsPage.qml:263 ../app/StorePage.qml:264
+msgid "Sample Work"
+msgstr ""
+
 #: ../app/Footer.qml:43
 msgid "Views: "
 msgstr ""
@@ -41,13 +97,21 @@ msgstr ""
 msgid "Downloads: "
 msgstr ""
 
-#: ../app/Footer.qml:69 ../app/StorePage.qml:120
-msgid "Commissions: "
-msgstr ""
-
-#: ../app/Main.qml:23
+#: ../app/Main.qml:24
 #: /home/benjamin/Projects/build-WayFinder-Studio-Desktop-Default/po/WayFinder-Studio.desktop.in.h:1
 msgid "WayFinder-Studio"
+msgstr ""
+
+#: ../app/MapPage.qml:45
+msgid "Map - "
+msgstr ""
+
+#: ../app/MapPage.qml:114
+msgid "Location:"
+msgstr ""
+
+#: ../app/MapPage.qml:133
+msgid "Discription:"
 msgstr ""
 
 #: ../app/Menu.qml:24
@@ -55,7 +119,7 @@ msgid "Art"
 msgstr ""
 
 #: ../app/Menu.qml:37
-msgid "Scenario"
+msgid "Adventure"
 msgstr ""
 
 #: ../app/Menu.qml:49
@@ -66,54 +130,38 @@ msgstr ""
 msgid "New Art"
 msgstr ""
 
-#: ../app/StorePage.qml:12
-msgid "Settings:"
+#: ../app/StoryPage.qml:12
+msgid "Setup:"
 msgstr ""
 
-#: ../app/StorePage.qml:38
-msgid "Store Name: "
+#: ../app/StoryPage.qml:38
+msgid "Title: "
 msgstr ""
 
-#: ../app/StorePage.qml:49
-msgid "Artist Name: "
+#: ../app/StoryPage.qml:49
+msgid "Author: "
 msgstr ""
 
-#: ../app/StorePage.qml:69
-msgid "Discription: "
+#: ../app/StoryPage.qml:64
+msgid "Date: "
 msgstr ""
 
-#: ../app/StorePage.qml:86
-msgid "Contact Info: "
+#: ../app/StoryPage.qml:98
+msgid "Publish: "
 msgstr ""
 
-#: ../app/StorePage.qml:107
-msgid "Public: "
+#: ../app/StoryPage.qml:221
+msgid "Cover Art"
 msgstr ""
 
-#: ../app/StorePage.qml:132
-msgid "Donations: "
+#: ../app/StoryPage.qml:234
+msgid "About:"
 msgstr ""
 
-#: ../app/StorePage.qml:157
-msgid "Payment Options: "
+#: ../app/StoryPage.qml:265
+msgid "Summary:"
 msgstr ""
 
-#: ../app/StorePage.qml:174
-msgid "Pay Pal: "
-msgstr ""
-
-#: ../app/StorePage.qml:185
-msgid "Patreon: "
-msgstr ""
-
-#: ../app/StorePage.qml:196
-msgid "CoinBase: "
-msgstr ""
-
-#: ../app/StorePage.qml:242
-msgid "Artist's Avatar"
-msgstr ""
-
-#: ../app/StorePage.qml:263
-msgid "Sample Work"
+#: ../app/StoryPage.qml:286
+msgid "Story so far:"
 msgstr ""
