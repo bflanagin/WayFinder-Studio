@@ -14,5 +14,10 @@ Rectangle {
     anchors.fill:parent
     color:Qt.rgba(0.1,0.1,0.1,0.1)
     border.color:"black"
+
+
+
+
+
 }
 }

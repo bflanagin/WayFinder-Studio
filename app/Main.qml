@@ -1,6 +1,10 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+
+import QtQuick.LocalStorage 2.0 as Sql
+
 import "Main.js" as Scripts
+import "openseed.js" as OpenSeed
 
 /*!
     \brief MainView with a Label and Button elements.
@@ -9,6 +13,7 @@ import "Main.js" as Scripts
 MainView {
     // objectName for functional testing purposes (autopilot-qt5)
     objectName: "mainView"
+    id:mainWindow
 
     // Note! applicationName needs to match the "name" field of the click manifest
     applicationName: "wayfinder-studio.vagueentertainment"
@@ -17,6 +22,37 @@ MainView {
     height: units.gu(175)
 
     property int selectedtab: 1
+    property string devId: "Vag-01001011"
+    property string appId: "VagRpg-45454"
+
+    property string username: ""
+    property string useremail: ""
+    property string id: ""
+
+
+    property string artistname: ""
+    property string storename: ""
+    property string discription: ""
+    property string contact: ""
+    property int commissions: 0
+    property int pub: 0
+    property int donations: 0
+
+    property string paypal: ""
+    property string patreon: ""
+    property string coinbase: ""
+
+
+
+
+
+    Timer {
+        id:startup
+        running:true
+        repeat:false
+        interval: 10
+        onTriggered: Scripts.loaddb()
+    }
 
     Page {
         header: PageHeader {
@@ -101,7 +137,7 @@ MainView {
 
                 ]
 
-
+                onStateChanged: if(artPages.state == "Show") {Scripts.artuserdb("load")}
 
                 state:"Hide"
 
@@ -115,6 +151,7 @@ MainView {
 
             tab:1
             z:if(selectedtab == 1) {2} else {0}
+
 
             StorePage {
                 width:parent.width * 0.99
@@ -253,22 +290,7 @@ MainView {
                 anchors.centerIn: parent
             }
         }
-        /*Pages {
-            id:storyData
-            width:parent.width * 0.95
-            height:parent.height * 0.94
-            anchors.centerIn: parent
-            title:"OverView"
-            state:"pos3"
-            tab:3
-            z:if(selectedtab == 3) {2} else {0}
 
-            DetailsPage {
-                width:parent.width * 0.99
-                height:parent.height * 0.95
-                anchors.centerIn: parent
-            }
-        } */
 
         }
 
@@ -287,7 +309,14 @@ MainView {
         }
 
 
+        Auth {
+            id:os_connect
+            x:parent.width / 3
+            y:parent.height /5
+            width:parent.width * 0.40
+            height:parent.width * 0.30
 
+        }
 
 
     }

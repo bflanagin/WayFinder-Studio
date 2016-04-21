@@ -2,7 +2,12 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import QtQuick.Dialogs 1.0
 
+import QtQuick.LocalStorage 2.0 as Sql
+import "Main.js" as Scripts
+import "openseed.js" as OpenSeed
+
 Item {
+
 
     Text {
         anchors.top:parent.top
@@ -39,9 +44,12 @@ Item {
                 color:"white"
                 font.pixelSize: parent.height * 0.02
                 TextField {
+                    text:storename
+                    onTextChanged: storename = text
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
+                    onFocusChanged:  Scripts.artuserdb("save");
                 }
             }
 
@@ -50,9 +58,12 @@ Item {
                 color:"white"
                 font.pixelSize: parent.height * 0.02
                 TextField {
+                    text:artistname
+                    onTextChanged: artistname = text
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
+                    onFocusChanged:  Scripts.artuserdb("save");
                 }
             }
 
@@ -64,19 +75,22 @@ Item {
 
             Item {
                     width:parent.width
-                    height:discription.height
+                    height:discript.height
             Text {
                 text:i18n.tr("Discription: ")
                 color:"white"
                 font.pixelSize: settingscolumn.height * 0.02
 
                 TextArea {
-                    id:discription
+                    id:discript
+                    text:discription
+                    onTextChanged: discription = text
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     height:parent.height * 8
                     anchors.top: parent.top
                     wrapMode:Text.WordWrap
+                    onFocusChanged:  Scripts.artuserdb("save");
                 }
             }
 
@@ -87,9 +101,12 @@ Item {
                 color:"white"
                 font.pixelSize: parent.height * 0.02
                 TextField {
+                    text:contact
+                    onTextChanged: contact = text
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
+                     onFocusChanged:  Scripts.artuserdb("save");
                 }
             }
 
@@ -109,10 +126,12 @@ Item {
                     color:"white"
 
                     CheckBox {
+
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left:parent.right
-
-                        id:pub
+                         onFocusChanged:  Scripts.artuserdb("save");
+                        checked:if(pub == 1) {return true} else {return false}
+                        onCheckedChanged: pub = checked
                     }
                 }
 
@@ -123,7 +142,9 @@ Item {
                 CheckBox {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left:parent.right
-                    id:commisions
+                    checked:if(commissions == 1) {return true} else {return false}
+                    onCheckedChanged: commissions = checked
+                    onFocusChanged:  Scripts.artuserdb("save");
                 }
 
                 }
@@ -135,7 +156,9 @@ Item {
                 CheckBox {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left:parent.right
-                    id:donations
+                    checked:if(donations == 1) {return true} else {return false}
+                    onCheckedChanged: donations = checked
+                     onFocusChanged:  Scripts.artuserdb("save");
                 }
 
                 }
@@ -150,7 +173,7 @@ Item {
             Item {
                     width:parent.width
                     height:comoptscolumn.height
-                    visible: if(commisions.checked == 1 | donations.checked == 1 ) {true} else {false}
+                    visible: if(commissions == 1 | donations == 1 ) {true} else {false}
 
 
             Text {
@@ -179,6 +202,8 @@ Item {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
+                            text:paypal
+                            onTextChanged: paypal = text, Scripts.artuserdb("save");
                         }
                     }
 
@@ -190,6 +215,8 @@ Item {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
+                            text:patreon
+                            onTextChanged: patreon = text, Scripts.artuserdb("save");
                         }
                     }
 
@@ -201,6 +228,8 @@ Item {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
+                            text:coinbase
+                            onTextChanged: coinbase = text, Scripts.artuserdb("save");
                         }
                     }
 

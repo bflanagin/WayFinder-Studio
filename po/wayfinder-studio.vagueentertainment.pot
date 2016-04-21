@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-19 07:37-0500\n"
+"POT-Creation-Date: 2016-04-20 21:17-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,25 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ../app/Auth.qml:53
+msgid "OpenSeed Connect"
+msgstr ""
+
+#: ../app/Auth.qml:66
+msgid ""
+"WayFinder uses the OpenSeed network for background services. We ask for an "
+"email address but don't keep it. All transactions will be done through user "
+"IDs."
+msgstr ""
+
+#: ../app/Auth.qml:81
+msgid "User Name"
+msgstr ""
+
+#: ../app/Auth.qml:96
+msgid "Email Address"
+msgstr ""
 
 #: ../app/CommissionsPage.qml:11
 msgid "Current Commissions:"
@@ -29,59 +48,59 @@ msgstr ""
 msgid "  Review:"
 msgstr ""
 
-#: ../app/DetailsPage.qml:12 ../app/StorePage.qml:12
+#: ../app/DetailsPage.qml:12 ../app/StorePage.qml:17
 msgid "Settings:"
 msgstr ""
 
-#: ../app/DetailsPage.qml:38 ../app/StorePage.qml:38
+#: ../app/DetailsPage.qml:38 ../app/StorePage.qml:43
 msgid "Store Name: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:49 ../app/StorePage.qml:49
+#: ../app/DetailsPage.qml:49 ../app/StorePage.qml:57
 msgid "Artist Name: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:69 ../app/StorePage.qml:69
+#: ../app/DetailsPage.qml:69 ../app/StorePage.qml:80
 msgid "Discription: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:86 ../app/StorePage.qml:86 ../app/StoryPage.qml:76
+#: ../app/DetailsPage.qml:86 ../app/StorePage.qml:100 ../app/StoryPage.qml:76
 msgid "Contact Info: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:107 ../app/StorePage.qml:107
+#: ../app/DetailsPage.qml:107 ../app/StorePage.qml:124
 msgid "Public: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:120 ../app/Footer.qml:69 ../app/StorePage.qml:120
+#: ../app/DetailsPage.qml:120 ../app/Footer.qml:69 ../app/StorePage.qml:139
 msgid "Commissions: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:132 ../app/StorePage.qml:132 ../app/StoryPage.qml:112
+#: ../app/DetailsPage.qml:132 ../app/StorePage.qml:153 ../app/StoryPage.qml:112
 msgid "Donations: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:157 ../app/StorePage.qml:158 ../app/StoryPage.qml:138
+#: ../app/DetailsPage.qml:157 ../app/StorePage.qml:181 ../app/StoryPage.qml:138
 msgid "Payment Options: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:174 ../app/StorePage.qml:175 ../app/StoryPage.qml:155
+#: ../app/DetailsPage.qml:174 ../app/StorePage.qml:198 ../app/StoryPage.qml:155
 msgid "Pay Pal: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:185 ../app/StorePage.qml:186 ../app/StoryPage.qml:167
+#: ../app/DetailsPage.qml:185 ../app/StorePage.qml:211 ../app/StoryPage.qml:167
 msgid "Patreon: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:196 ../app/StorePage.qml:197 ../app/StoryPage.qml:179
+#: ../app/DetailsPage.qml:196 ../app/StorePage.qml:224 ../app/StoryPage.qml:179
 msgid "CoinBase: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:242 ../app/StorePage.qml:243
+#: ../app/DetailsPage.qml:242 ../app/StorePage.qml:272
 msgid "Artist's Avatar"
 msgstr ""
 
-#: ../app/DetailsPage.qml:263 ../app/StorePage.qml:264
+#: ../app/DetailsPage.qml:263 ../app/StorePage.qml:293
 msgid "Sample Work"
 msgstr ""
 
@@ -97,7 +116,7 @@ msgstr ""
 msgid "Downloads: "
 msgstr ""
 
-#: ../app/Main.qml:24
+#: ../app/Main.qml:60
 #: /home/benjamin/Projects/build-WayFinder-Studio-Desktop-Default/po/WayFinder-Studio.desktop.in.h:1
 msgid "WayFinder-Studio"
 msgstr ""
