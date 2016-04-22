@@ -306,7 +306,7 @@ Item {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        folder: shortcuts.home
+        //folder: shortcuts.home
         onAccepted: {
             console.log("You chose: " + fileDialog.fileUrls)
 

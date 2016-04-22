@@ -105,9 +105,6 @@ function loaddb() {
 function artuserdb(go) {
 
 
-
-
-
     var db = Sql.LocalStorage.openDatabaseSync("UserInfo", "1.0", "Local UserInfo", 1);
 
 
@@ -168,7 +165,7 @@ function artuserdb(go) {
 
                }
 
-               store_img("avatar","/home/benjamin/MyAvatar.png");
+
 
             }
 
@@ -176,28 +173,144 @@ function artuserdb(go) {
 
         });
 
+    load_img("avatar");
+    load_img("sample");
 
 }
 
 function store_img(type,image) {
 
     var db = Sql.LocalStorage.openDatabaseSync("ImageStore", "1.0", "Images", 1);
-
-            var filename = image.split('/').slice(-1);
-        //Qt.openUrlExternally("/bin/mkdir -p $HOME/.local/share/"+mainWindow.applicationName+"/images/avatar/");
-        //Qt.openUrlExternally("/bin/sh /bin/cp "+image+" $HOME/.local/share/"+mainWindow.applicationName+"/images/avatar/"+filename);
-
-
+     var insert = "";
+    var testStr = "";
+    var pull = "";
+    var data = "";
+    var updateUser = "";
 
     db.transaction(function(tx) {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS ARTUSER (id TEXT,type TEXT ,imagename TEXT ,imagedata BLOB)');
-                       var insert = "INSERT INTO ARTUSER VALUES(?,?,?,?)";
 
-                var data = [id,type,image,image];
-            tx.executeSql(insert,data);
+        if(type == "avatar" || type == "sample") {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ARTUSER (id TEXT,type TEXT ,imagename TEXT ,imagedata BLOB)');
+                        insert = "INSERT INTO ARTUSER VALUES(?,?,?,?)";
+
+             testStr = "SELECT  *  FROM ARTUSER WHERE type='"+type+"'";
+
+             pull =  tx.executeSql(testStr);
+
+
+           if(pull.rows.length == 0) {
+
+                     data = [id,type,image,image];
+                tx.executeSql(insert,data);
+
+           } else {
+
+                updateUser = "UPDATE ARTUSER SET imagename='"+image+"',imagedata='"+image+"' WHERE type='"+type+"'";
+               tx.executeSql(updateUser);
+
+           }
+
+        } else {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT)');
+                            insert = "INSERT INTO GALLERY VALUES(?,?,?,?,?,?,?,?,?,?)";
+
+             testStr = "SELECT  *  FROM GALLERY WHERE imagename='"+image+"'";
+
+             pull =  tx.executeSql(testStr);
+
+
+           if(pull.rows.length == 0) {
+
+                     data = [id,artname,type,image,race,aclass,download,cost,base,artdiscription.replace(/\'/g,"&#x27;")];
+                tx.executeSql(insert,data);
+
+           } else {
+
+                updateUser = "UPDATE GALLERY SET name='"+artname+"'type='"+type+"',imagename='"+image+"',race='"+race+"',class='"+aclass+"',download='"+download+"',cost='"+cost+"',base='"+base+"',discription='"+artdiscription+"' WHERE imagename='"+image+"'";
+               tx.executeSql(updateUser);
+
+           }
+
+
+
+
+        }
+
+
 
      });
 
 }
+
+
+function load_img(type) {
+
+    var db = Sql.LocalStorage.openDatabaseSync("ImageStore", "1.0", "Images", 1);
+
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ARTUSER (id TEXT,type TEXT ,imagename TEXT ,imagedata BLOB)');
+
+        var testStr = "SELECT  *  FROM ARTUSER WHERE type ='"+type+"'";
+
+        var pull =  tx.executeSql(testStr);
+
+
+       if(pull.rows.length != 0) {
+
+          switch (type) {
+          case "avatar": avatarimg = pull.rows.item(0).imagename;break;
+          case "sample": sampleimg = pull.rows.item(0).imagename;break;
+          default:break;
+          }
+
+       }
+
+     });
+
+}
+
+function load_gallery() {
+
+    var db = Sql.LocalStorage.openDatabaseSync("ImageStore", "1.0", "Images", 1);
+
+
+    db.transaction(function(tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT)');
+
+        var testStr = "SELECT  *  FROM GALLERY WHERE 1";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+        imagelist.append({
+
+                     name:"AddNew",
+                     img:"graphics/newImageAdd.png"
+
+                         });
+
+        while(pull.rows.length > itemnum) {
+
+                console.log(pull.rows.item(itemnum).name);
+
+                imagelist.append({
+                    name : pull.rows.item(itemnum).name,
+                    img : pull.rows.item(itemnum).imagename
+
+
+                    });
+
+
+            itemnum = itemnum+1;
+        }
+
+
+
+    });
+
+
+}
+
 
 

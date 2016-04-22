@@ -8,6 +8,7 @@ import "openseed.js" as OpenSeed
 
 Item {
 
+    property int where: 1
 
     Text {
         anchors.top:parent.top
@@ -262,7 +263,14 @@ Item {
 
             width:parent.width * 0.20
             height:parent.width * 0.20
-            source:"graphics/newImageAdd.png"
+            source:if(avatarimg == "") {"graphics/newImageAdd.png"} else {avatarimg}
+
+
+
+            MouseArea {
+                anchors.fill:parent
+                onClicked:where =1, fileDialog.visible = true
+            }
 
         }
         Text {
@@ -282,7 +290,13 @@ Item {
         anchors.rightMargin:20
         width:parent.width * 0.70
         height:parent.height * 0.85
-        source:"graphics/newImageAdd.png"
+        source:if(sampleimg == "") {"graphics/newImageAdd.png"} else {sampleimg}
+        fillMode:Image.PreserveAspectCrop
+
+        MouseArea {
+            anchors.fill:parent
+            onClicked:where =2, fileDialog.visible = true
+        }
 
     }
 
@@ -299,10 +313,27 @@ Item {
 
     FileDialog {
         id: fileDialog
+
         title: "Please choose a file"
-        folder: shortcuts.home
+        //folder: shortcuts.home
         onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
+                switch(where) {
+                case 1:
+
+                    fileio.store = "avatar,"+fileDialog.fileUrls;
+                    avatarimg = fileio.store;
+                    Scripts.store_img("avatar",avatarimg);
+                    break;
+                case 2:
+
+                    fileio.store = "sample,"+fileDialog.fileUrls;
+                    sampleimg = fileio.store;
+                    Scripts.store_img("sample",sampleimg);
+                    break;
+
+                default:break;
+
+            }
 
         }
         onRejected: {

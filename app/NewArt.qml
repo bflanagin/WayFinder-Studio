@@ -3,8 +3,22 @@ import Ubuntu.Components 1.3
 //import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.0
 
+import WayFinder 1.0
+
+import QtQuick.LocalStorage 2.0 as Sql
+
+import "Main.js" as Scripts
+import "openseed.js" as OpenSeed
+
+
 
 Item {
+
+
+    property int where: 1
+    property string preview: ""
+
+
     width:parent.width
     height:parent.height
     id:window_container
@@ -34,6 +48,8 @@ Item {
 
     ]
 
+    onStateChanged: if(window_container.state == "Show") {race ="",aclass="",artdiscription="",download=1,cost="0.00",base=0,preview=""}
+
 Rectangle {
     id:window
     z:0
@@ -58,31 +74,85 @@ Rectangle {
         x:20
         width:parent.width * 0.40
         height:parent.height * 0.90
-        spacing:10
-        clip:true
+        spacing:8
+
+
+        Item {
+            width:parent.width
+            height:titlespot.height + 10
+        Text {
+            text:"Title: "
+            color:"white"
+            font.pixelSize: parent.width * 0.05
+            TextField {
+                id:titlespot
+               // height:parent.height
+                width:options.width - parent.width
+                text:artname
+                onTextChanged: artname = text
+                anchors.left:parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+        }
+
+           }
+
 
         ComboButton {
 
             id:artrace
-            text:"Race"
+            text:if(race == ""){"Race"} else {race}
+            onTextChanged: race = text
             width:parent.width
+            expanded: false
             //height:window.height * 0.10
             ListView {
                     model: ["Elf","Human","Dwarf"]
-                    delegate: Text {
+                    spacing:5
+                    delegate:
+
+                       Text {
+
+                        horizontalAlignment: Text.AlignHCenter
                         text: modelData
+                        width:parent.width
+
+
+                        MouseArea {
+                            anchors.fill:parent
+                            onClicked: {artrace.text = modelData
+                                        artrace.expanded = false}
+                        }
                     }
+
             }
         }
         ComboButton {
             id:artclass
             width:parent.width
             //height:window.height * 0.10
-            text:"Class"
+            text:if(aclass == ""){"Class"} else {aclass}
+            onTextChanged: aclass = text
             ListView {
+                    spacing:5
                     model: ["Fighter","Wizard","Rogue"]
-                    delegate: Text {
+                    delegate:
+
+                        Text {
+
+                        horizontalAlignment: Text.AlignHCenter
                         text: modelData
+                        width:parent.width
+
+
+                        MouseArea {
+                            anchors.fill:parent
+                            onClicked: {artclass.text = modelData
+                                        artclass.expanded = false}
+                        }
                     }
             }
 
@@ -95,7 +165,8 @@ Rectangle {
                // height:parent.height
                // width:parent.height
                 id:downloadcheck
-                checked:true
+                checked:if(download == 1) {return true} else {return false}
+                onCheckedChanged: download = checked
                 anchors.left:parent.right
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -106,12 +177,14 @@ Rectangle {
             color:"white"
             font.pixelSize: parent.width * 0.05
             TextField {
-                height:parent.height
+               // height:parent.height
                 width:options.width - parent.width
-                id:cost
-
+                text:cost
+                onTextChanged: cost = text
                 anchors.left:parent.right
                 anchors.verticalCenter: parent.verticalCenter
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
             }
 
         }
@@ -121,10 +194,11 @@ Rectangle {
             color:"white"
             font.pixelSize: parent.width * 0.05
             CheckBox {
-                id:base
-
+                id:artbase
                 anchors.left:parent.right
                 anchors.verticalCenter: parent.verticalCenter
+                checked:if(base == 1) {return true} else {return false}
+                onCheckedChanged: base = checked;
             }
 
         }
@@ -138,7 +212,9 @@ Rectangle {
                 anchors.top:parent.bottom
                 anchors.topMargin:10
                 width:options.width
-                height: window.height / 2
+                height: window.height / 2.5
+                text:artdiscription
+                onTextChanged: artdiscription = text
             }
         }
 
@@ -152,9 +228,10 @@ Image {
     anchors.top:tag.bottom
     anchors.topMargin:10
     anchors.rightMargin:30
-    source:"graphics/newImageAdd.png"
+    source:if(preview == "") {"graphics/newImageAdd.png"} else {preview}
     width:parent.width * 0.40
     height:parent.height * 0.88
+    fillMode:if(preview == "") {Image.PreserveAspectFit} else {Image.PreserveAspectCrop}
 
     MouseArea {
         anchors.fill:parent
@@ -181,7 +258,7 @@ Rectangle {
     }
     MouseArea {
         anchors.fill:parent
-        onClicked:window_container.state = "Hide"
+        onClicked:window_container.state = "Hide",imagelist.clear(),Scripts.load_gallery()
         hoverEnabled: true
         onEntered: closebutton.color = "grey"
         onExited: closebutton.color = UbuntuColors.coolGrey
@@ -223,10 +300,28 @@ Rectangle {
 
 FileDialog {
     id: fileDialog
+
     title: "Please choose a file"
     //folder: shortcuts.home
+    property string imagefile: ""
     onAccepted: {
-        console.log("You chose: " + fileDialog.fileUrls)
+            switch(where) {
+            case 1:
+
+                fileio.store = "library,"+fileDialog.fileUrls;
+                 preview = fileio.store;
+                Scripts.store_img("library",preview);
+                break;
+            case 2:
+
+                fileio.store = "library,"+fileDialog.fileUrls;
+                preview = fileio.store;
+                Scripts.store_img("private",preview);
+                break;
+
+            default:break;
+
+        }
 
     }
     onRejected: {

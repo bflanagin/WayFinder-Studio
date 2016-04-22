@@ -1,8 +1,19 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 
+import QtQuick.LocalStorage 2.0 as Sql
+
+import "Main.js" as Scripts
+import "openseed.js" as OpenSeed
+
 Item {
     clip:true
+
+    visible:false
+
+    onVisibleChanged: if(visible == true) {Scripts.load_gallery()}
+
+
 
 GridView {
     id:grid
@@ -15,18 +26,20 @@ GridView {
     //cellWidth:80
 
 
+
+
     delegate:
         Item {
             width:grid.cellWidth * 0.90
             height:grid.cellHeight * 0.90
             clip:true
             Image {
-                //anchors.centerIn:parent
-                source:"graphics/newImageAdd.png"
-                //anchors.fill:parent
+
+                source:img
+
                 width:parent.width
                 height:parent.height * 0.90
-                fillMode:Image.PreserveAspectFit
+                fillMode:if(img =="graphics/newImageAdd.png") {Image.PreserveAspectfit} else {Image.PreserveAspectCrop}
                 Text {
                  text:name
                  anchors.top:parent.bottom
@@ -42,18 +55,13 @@ GridView {
                 onExited: footer.state = "hide"
                 hoverEnabled : true
 
-                onClicked:newArt.state = "Show"
+                onClicked:if(name == "AddNew") {newArt.state = "Show"} else {console.log("Working on it")}
             }
             }
 
 
     model: ListModel {
             id: imagelist
-
-            ListElement {
-                name:"AddNew"
-                img:"graphics/newImageAdd.png"
-            }
 
     }
 

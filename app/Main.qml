@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import WayFinder 1.0
 
 import QtQuick.LocalStorage 2.0 as Sql
 
@@ -42,8 +43,34 @@ MainView {
     property string patreon: ""
     property string coinbase: ""
 
+    property string avatarimg: ""
+    property string sampleimg: ""
 
 
+    property string race: ""
+    property string aclass: ""
+
+    property string cost: "0.00"
+    property int download: 1
+    property int base: 0
+
+    property string artdiscription: ""
+    property string artname: ""
+
+
+
+
+MyIOout {
+    id:fileio
+
+        Component.onCompleted: {
+         fileio.create = "/dev/testing/message"
+
+            console.log(fileio.create)
+
+        }
+
+}
 
 
     Timer {
@@ -168,12 +195,14 @@ MainView {
             title:"Gallery"
             state:"pos2"
             tab:2
-            z:if(selectedtab == 2) {2} else {0}
+            z:if(selectedtab == 2) {2,gp.visible = true} else {0}
 
             GalleryPage {
+                id:gp
                 width:parent.width * 0.99
                 height:parent.height * 0.95
                 anchors.centerIn: parent
+
             }
         }
         Pages {
