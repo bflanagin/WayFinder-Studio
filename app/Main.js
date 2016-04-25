@@ -187,6 +187,10 @@ function store_img(type,image) {
     var data = "";
     var updateUser = "";
 
+    var d = new Date();
+    var identkey = type+"::"+artname+"::"+d.getTime();
+
+
     db.transaction(function(tx) {
 
         if(type == "avatar" || type == "sample") {
@@ -211,8 +215,8 @@ function store_img(type,image) {
            }
 
         } else {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT)');
-                            insert = "INSERT INTO GALLERY VALUES(?,?,?,?,?,?,?,?,?,?)";
+            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT)');
+                            insert = "INSERT INTO GALLERY VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
              testStr = "SELECT  *  FROM GALLERY WHERE imagename='"+image+"'";
 
@@ -221,12 +225,12 @@ function store_img(type,image) {
 
            if(pull.rows.length == 0) {
 
-                     data = [id,artname,type,image,race,aclass,download,cost,base,artdiscription.replace(/\'/g,"&#x27;")];
+                     data = [id,artname,type,image,race,aclass,download,cost,base,artdiscription.replace(/\'/g,"&#x27;"),identkey];
                 tx.executeSql(insert,data);
 
            } else {
 
-                updateUser = "UPDATE GALLERY SET name='"+artname+"'type='"+type+"',imagename='"+image+"',race='"+race+"',class='"+aclass+"',download='"+download+"',cost='"+cost+"',base='"+base+"',discription='"+artdiscription+"' WHERE imagename='"+image+"'";
+                updateUser = "UPDATE GALLERY SET name='"+artname+"'type='"+type+"',imagename='"+image+"',race='"+race+"',class='"+aclass+"',download='"+download+"',cost='"+cost+"',base='"+base+"',discription='"+artdiscription+",ident='"+identkey+"' WHERE imagename='"+image+"'";
                tx.executeSql(updateUser);
 
            }
@@ -276,7 +280,7 @@ function load_gallery() {
 
 
     db.transaction(function(tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT)');
+            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT)');
 
         var testStr = "SELECT  *  FROM GALLERY WHERE 1";
 

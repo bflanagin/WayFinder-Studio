@@ -5,12 +5,14 @@
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
+#include <QCryptographicHash>
 
 class MyIOout : public QObject
 {
     Q_OBJECT
     Q_PROPERTY( QString store READ store WRITE file NOTIFY filesaved )
     Q_PROPERTY( QString create READ create WRITE directory NOTIFY filesaved )
+
 
 public:
     explicit MyIOout(QObject *parent = 0);
@@ -23,6 +25,7 @@ protected:
 
     QString store() {return m_message; }
     QString create() {return m_message; }
+
 
     void file(QString msg) {
 

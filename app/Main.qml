@@ -56,15 +56,33 @@ MainView {
 
     property string artdiscription: ""
     property string artname: ""
+    property string heart: "Offline"
+    property int updateinterval: 2000
 
 
+    Timer {
+        id:initialbeat
+        interval:20
+        running:true
+        repeat:false
+        onTriggered: OpenSeed.heartbeat()
+    }
+
+
+    Timer {
+        id:heartbeats
+        //interval:30000
+        running:true
+        repeat:true
+        onTriggered: OpenSeed.heartbeat(),console.log(heart)
+    }
 
 
 MyIOout {
     id:fileio
 
         Component.onCompleted: {
-         fileio.create = "/dev/testing/message"
+         fileio.create = "makestuff"
 
             console.log(fileio.create)
 
