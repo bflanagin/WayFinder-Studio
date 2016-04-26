@@ -50,39 +50,7 @@ Item {
         model: ListModel {
                 id: currentlist
 
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
 
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
 
 
 
@@ -140,34 +108,7 @@ Item {
         model: ListModel {
                 id: completelist
 
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
+
         }
 
     }
@@ -226,10 +167,7 @@ Item {
         model: ListModel {
                 id: reviewlist
 
-                ListElement {
-                    name:"AddNew"
-                    img:"graphics/newImageAdd.png"
-                }
+
         }
 
     }

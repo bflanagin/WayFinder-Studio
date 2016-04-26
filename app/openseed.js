@@ -77,7 +77,7 @@ function heartbeat() {
             } else {
 
                 heart = http.responseText;
-                updateinterval = 200000;
+                updateinterval = 20000;
 
             }
 
@@ -102,8 +102,8 @@ function heartbeat() {
 function check_commissions() {
 
     var http = new XMLHttpRequest();
-    var url = "http://openseed.vagueentertainment.com/"+devId+"/"+appId+"/commissions.php";
-   // console.log(url)
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/commissions.php";
+   //console.log(url)
     http.onreadystatechange = function() {
         if (http.readyState == 4) {
             //console.log(http.responseText);
@@ -130,7 +130,7 @@ function check_commissions() {
 function retrieve_commissions() {
 
     var http = new XMLHttpRequest();
-    var url = "http://openseed.vagueentertainment.com/corescripts/commissions.php";
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/commissions.php";
    // console.log(url)
     http.onreadystatechange = function() {
         if (http.readyState == 4) {
@@ -159,7 +159,7 @@ function retrieve_commissions() {
 function check_gallery() {
 
     var http = new XMLHttpRequest();
-    var url = "http://openseed.vagueentertainment.com/corescripts/gallery.php";
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/gallery.php";
    // console.log(url)
     http.onreadystatechange = function() {
         if (http.readyState == 4) {
@@ -170,9 +170,9 @@ function check_gallery() {
             } else if(http.responseText == 101) {
                 console.log("Incorrect AppID");
             } else {
-              //  console.log(http.responseText);
-                id = http.responseText;
-                //createdb();
+               console.log(http.responseText);
+
+
             }
 
         }
@@ -188,7 +188,7 @@ function check_gallery() {
 function retrieve_gallery() {
 
     var http = new XMLHttpRequest();
-    var url = "http://openseed.vagueentertainment.com/corescripts/gallery.php";
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/gallery.php";
    // console.log(url)
     http.onreadystatechange = function() {
         if (http.readyState == 4) {
@@ -200,7 +200,7 @@ function retrieve_gallery() {
                 console.log("Incorrect AppID");
             } else {
               //  console.log(http.responseText);
-                id = http.responseText;
+
                 //createdb();
             }
 
@@ -213,3 +213,123 @@ function retrieve_gallery() {
 
 }
 
+function send_gallery() {
+
+    var http = new XMLHttpRequest();
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/gallery.php";
+   // console.log(url)
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            //console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == 100) {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == 101) {
+                console.log("Incorrect AppID");
+            } else {
+              //  console.log(http.responseText);
+
+                //createdb();
+            }
+
+        }
+    }
+    http.open('POST', url.trim(), true);
+    //http.send(null);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("devid=" + devId + "&appid=" + appId + "&id="+ id + "&type=update" );
+
+
+}
+
+function retrieve_info() {
+
+    var http = new XMLHttpRequest();
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/info.php";
+   // console.log(url)
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            //console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == 100) {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == 101) {
+                console.log("Incorrect AppID");
+            } else {
+                console.log(http.responseText);
+
+                //createdb();
+            }
+
+        }
+    }
+    http.open('POST', url.trim(), true);
+    //http.send(null);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("devid=" + devId + "&appid=" + appId + "&id="+ id + "&type=retrieve" );
+
+}
+
+function send_info() {
+
+    var http = new XMLHttpRequest();
+    var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/info.php";
+   // console.log(url)
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            //console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == 100) {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == 101) {
+                console.log("Incorrect AppID");
+            } else {
+            // console.log(http.responseText);
+
+                //createdb();
+                send_images("artist","avatar",avatarimg);
+                changes = 0;
+            }
+
+        }
+    }
+    http.open('POST', url.trim(), true);
+    //http.send(null);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("devid=" + devId + "&appid=" + appId + "&id="+ id + "&storename="+ storename.replace(/\'/g,"&#x27;") + "&artistname="+ artistname.replace(/\'/g,"&#x27;") + "&discription="+ discription.replace(/\'/g,"&#x27;") + "&contact="+ contact + "&pub="+ pub + "&donations="+ donations +"&commissions="+ commissions + "&paypal="+ paypal +"&patreon="+ patreon + "&coinbase="+ coinbase +"&type=sending" );
+
+}
+
+function send_images(where,type,image) {
+
+    var http = new XMLHttpRequest();
+    var url = "";
+
+        if(where == "artist") {
+        url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/info-images.php";
+        }
+
+   // console.log(url)
+    http.onreadystatechange = function() {
+        if (http.readyState == 4) {
+            //console.log(http.responseText);
+            //userid = http.responseText;
+            if(http.responseText == 100) {
+                console.log("Incorrect DevID");
+            } else if(http.responseText == 101) {
+                console.log("Incorrect AppID");
+            } else {
+                //console.log(http.responseText);
+                fileio.send = "test";
+                //createdb();
+            }
+
+        }
+    }
+    http.open('POST', url.trim(), true);
+    //http.send(null);
+
+   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("id="+id+"&type="+type+"&imagename="+image);
+
+}

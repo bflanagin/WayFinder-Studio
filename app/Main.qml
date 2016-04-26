@@ -58,6 +58,7 @@ MainView {
     property string artname: ""
     property string heart: "Offline"
     property int updateinterval: 2000
+    property int changes: 0
 
 
     Timer {
@@ -74,7 +75,11 @@ MainView {
         //interval:30000
         running:true
         repeat:true
-        onTriggered: OpenSeed.heartbeat(),console.log(heart)
+        onTriggered: { if(heart == "Online" && changes == 1) {
+                        OpenSeed.send_info();
+            }
+                 OpenSeed.heartbeat()
+        }
     }
 
 

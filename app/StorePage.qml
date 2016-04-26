@@ -46,7 +46,7 @@ Item {
                 font.pixelSize: parent.height * 0.02
                 TextField {
                     text:storename
-                    onTextChanged: storename = text
+                    onTextChanged: storename = text,changes = 1
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
@@ -60,11 +60,11 @@ Item {
                 font.pixelSize: parent.height * 0.02
                 TextField {
                     text:artistname
-                    onTextChanged: artistname = text
+                    onTextChanged: artistname = text,changes = 1
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
-                    onFocusChanged:  Scripts.artuserdb("save");
+                    onFocusChanged:  Scripts.artuserdb("save")
                 }
             }
 
@@ -85,13 +85,13 @@ Item {
                 TextArea {
                     id:discript
                     text:discription
-                    onTextChanged: discription = text
+                    onTextChanged: discription = text,changes = 1
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     height:parent.height * 8
                     anchors.top: parent.top
                     wrapMode:Text.WordWrap
-                    onFocusChanged:  Scripts.artuserdb("save");
+                    onFocusChanged:  Scripts.artuserdb("save")
                 }
             }
 
@@ -103,11 +103,11 @@ Item {
                 font.pixelSize: parent.height * 0.02
                 TextField {
                     text:contact
-                    onTextChanged: contact = text
+                    onTextChanged: contact = text,changes = 1
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
-                     onFocusChanged:  Scripts.artuserdb("save");
+                     onFocusChanged:  Scripts.artuserdb("save")
                 }
             }
 
@@ -130,9 +130,9 @@ Item {
 
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left:parent.right
-                         onFocusChanged:  Scripts.artuserdb("save");
+                         onFocusChanged:  Scripts.artuserdb("save")
                         checked:if(pub == 1) {return true} else {return false}
-                        onCheckedChanged: pub = checked
+                        onCheckedChanged: pub = checked,changes = 1
                     }
                 }
 
