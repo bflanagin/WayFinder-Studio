@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 21:19-0500\n"
+"POT-Creation-Date: 2016-05-03 01:15-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,7 @@ msgstr ""
 msgid "Discription: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:86 ../app/StorePage.qml:101 ../app/StoryPage.qml:76
+#: ../app/DetailsPage.qml:86 ../app/StorePage.qml:101 ../app/StoryPage.qml:134
 msgid "Contact Info: "
 msgstr ""
 
@@ -76,23 +76,23 @@ msgstr ""
 msgid "Commissions: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:132 ../app/StorePage.qml:154 ../app/StoryPage.qml:112
+#: ../app/DetailsPage.qml:132 ../app/StorePage.qml:154 ../app/StoryPage.qml:176
 msgid "Donations: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:157 ../app/StorePage.qml:182 ../app/StoryPage.qml:138
+#: ../app/DetailsPage.qml:157 ../app/StorePage.qml:182 ../app/StoryPage.qml:205
 msgid "Payment Options: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:174 ../app/StorePage.qml:199 ../app/StoryPage.qml:155
+#: ../app/DetailsPage.qml:174 ../app/StorePage.qml:199 ../app/StoryPage.qml:222
 msgid "Pay Pal: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:185 ../app/StorePage.qml:212 ../app/StoryPage.qml:167
+#: ../app/DetailsPage.qml:185 ../app/StorePage.qml:212 ../app/StoryPage.qml:237
 msgid "Patreon: "
 msgstr ""
 
-#: ../app/DetailsPage.qml:196 ../app/StorePage.qml:225 ../app/StoryPage.qml:179
+#: ../app/DetailsPage.qml:196 ../app/StorePage.qml:225 ../app/StoryPage.qml:251
 msgid "CoinBase: "
 msgstr ""
 
@@ -116,21 +116,92 @@ msgstr ""
 msgid "Downloads: "
 msgstr ""
 
-#: ../app/Main.qml:110
+#: ../app/Main.qml:153
 #: /home/benjamin/Projects/build-WayFinder-Studio-Desktop-Default/po/WayFinder-Studio.desktop.in.h:1
 msgid "WayFinder-Studio"
 msgstr ""
 
-#: ../app/MapPage.qml:45
+#: ../app/MapPage.qml:81
 msgid "Map - "
 msgstr ""
 
+#: ../app/MapPage.qml:111
+msgid "Living"
+msgstr ""
+
+#: ../app/MapPage.qml:112
+msgid "Soil"
+msgstr ""
+
+#: ../app/MapPage.qml:113
+msgid "Sand"
+msgstr ""
+
 #: ../app/MapPage.qml:114
-msgid "Location:"
+msgid "Ice"
+msgstr ""
+
+#: ../app/MapPage.qml:115
+msgid "Rock"
+msgstr ""
+
+#: ../app/MapPage.qml:116
+msgid "No Base Texture"
+msgstr ""
+
+#: ../app/MapPage.qml:128
+msgid "Standard Terrain"
+msgstr ""
+
+#: ../app/MapPage.qml:129
+msgid "Ruff Terrain"
+msgstr ""
+
+#: ../app/MapPage.qml:130
+msgid "Shallow Water"
+msgstr ""
+
+#: ../app/MapPage.qml:131
+msgid "Deep Water"
+msgstr ""
+
+#: ../app/MapPage.qml:132
+msgid "Tainted Water"
 msgstr ""
 
 #: ../app/MapPage.qml:133
+msgid "Deadly Fluid"
+msgstr ""
+
+#: ../app/MapPage.qml:134
+msgid "No Terrain"
+msgstr ""
+
+#: ../app/MapPage.qml:145 ../app/MapPage.qml:146 ../app/MapPage.qml:147
+#: ../app/MapPage.qml:148 ../app/MapPage.qml:149 ../app/MapPage.qml:150
+#: ../app/MapPage.qml:151 ../app/MapPage.qml:152 ../app/MapPage.qml:153
+#: ../app/MapPage.qml:154 ../app/MapPage.qml:155 ../app/MapPage.qml:156
+msgid "Wall"
+msgstr ""
+
+#: ../app/MapPage.qml:157
+msgid "No Wall"
+msgstr ""
+
+#: ../app/MapPage.qml:245
+msgid "Location:"
+msgstr ""
+
+#: ../app/MapPage.qml:264
 msgid "Discription:"
+msgstr ""
+
+#: ../app/MapPage.qml:286
+msgid "Enemies:"
+msgstr ""
+
+#: ../app/MapPage.qml:357
+msgid "Items:"
 msgstr ""
 
 #: ../app/Menu.qml:24
@@ -145,42 +216,42 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: ../app/NewArt.qml:286
+#: ../app/NewArt.qml:296 ../app/StoryPick.qml:86
 msgid "New Art"
 msgstr ""
 
-#: ../app/StoryPage.qml:12
+#: ../app/StoryPage.qml:61
 msgid "Setup:"
 msgstr ""
 
-#: ../app/StoryPage.qml:38
+#: ../app/StoryPage.qml:87
 msgid "Title: "
 msgstr ""
 
-#: ../app/StoryPage.qml:49
+#: ../app/StoryPage.qml:101
 msgid "Author: "
 msgstr ""
 
-#: ../app/StoryPage.qml:64
+#: ../app/StoryPage.qml:119
 msgid "Date: "
 msgstr ""
 
-#: ../app/StoryPage.qml:98
+#: ../app/StoryPage.qml:160
 msgid "Publish: "
 msgstr ""
 
-#: ../app/StoryPage.qml:221
+#: ../app/StoryPage.qml:295
 msgid "Cover Art"
 msgstr ""
 
-#: ../app/StoryPage.qml:234
+#: ../app/StoryPage.qml:342
 msgid "About:"
 msgstr ""
 
-#: ../app/StoryPage.qml:265
+#: ../app/StoryPage.qml:373
 msgid "Summary:"
 msgstr ""
 
-#: ../app/StoryPage.qml:286
+#: ../app/StoryPage.qml:397
 msgid "Story so far:"
 msgstr ""

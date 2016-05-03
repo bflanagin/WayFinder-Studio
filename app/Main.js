@@ -1,69 +1,14 @@
 var component;
 var tilenum = 0;
 
+var  maxColumn = 45;
+var maxRow = 45;
+var  maxIndex = maxRow * maxColumn;
 
-function mapgrid() {
-
-
-  var  maxColumn = 45;
-  var maxRow = 60;
- var  maxIndex = maxRow * maxColumn;
-    //var tilenum = 0;
-
-     //tiles = new Array(maxIndex);
-
-   //Initialize Board
-   for (var column = 0; column < maxColumn; column++) {
-      for (var row = 0; row < maxRow; row++) {
-
-           createBlock(column, row, tilenum);
-            tilenum= tilenum +1;
-       }
-   }
+var tiles = new Array(maxIndex);
 
 
-}
 
-function createBlock(column, row, num) {
-
-    if (component == null)
-        component = Qt.createComponent("./Tile.qml");
-
-    // Note that if tile.qml was not a local file, component.status would be
-    // Loading and we should wait for the component's statusChanged() signal to
-    // know when the file is downloaded and ready before calling createObject().
-
-    if (component.status == Component.Ready) {
-        var dynamicObject = component.createObject(maparea);
-        if (dynamicObject == null) {
-            console.log("error creating block");
-            console.log(component.errorString());
-            return false;
-        }
-        var blockSizex = maparea.width /50.7;
-        var blockSizey = maparea.width /50.7;
-
-
-        dynamicObject.x =(column * blockSizex);
-        dynamicObject.y =(row * blockSizey);
-
-        dynamicObject.width = blockSizex * 1.0;
-        dynamicObject.height = blockSizey *1.0;
-
-        dynamicObject.num = num;
-        dynamicObject.row = row;
-        dynamicObject.column = column;
-       //tiles[num] = dynamicObject;
-
-
-    } else {
-        console.log("error loading block component");
-        console.log(component.errorString());
-        return false;
-    }
-
-    return true;
-}
 
 function loaddb() {
     console.log("running Load DB");
@@ -100,6 +45,8 @@ function loaddb() {
 
 
 }
+
+//Art Store //
 
 
 function artuserdb(go) {
@@ -188,7 +135,14 @@ function store_img(type,image) {
     var updateUser = "";
 
     var d = new Date();
-    var identkey = type+"::"+artname+"::"+d.getTime();
+    var identkey = type+"::"+artname.replace(/\'/g,"&#x27;")+"::"+d.getTime();
+
+
+
+    var path = image.split(":;:")[0];
+    var idata = image.split(":;:")[1];
+
+
 
 
     db.transaction(function(tx) {
@@ -204,33 +158,38 @@ function store_img(type,image) {
 
            if(pull.rows.length == 0) {
 
-                     data = [id,type,image,image];
+                     data = [id,type,path,idata];
+
+
                 tx.executeSql(insert,data);
 
            } else {
 
-                updateUser = "UPDATE ARTUSER SET imagename='"+image+"',imagedata='"+image+"' WHERE type='"+type+"'";
+                updateUser = "UPDATE ARTUSER SET imagename='"+path+"',imagedata='"+idata+"' WHERE type='"+type+"'";
+
+
+
                tx.executeSql(updateUser);
 
            }
 
         } else {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT)');
-                            insert = "INSERT INTO GALLERY VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT,imagedata BLOB)');
+                            insert = "INSERT INTO GALLERY VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
-             testStr = "SELECT  *  FROM GALLERY WHERE imagename='"+image+"'";
+             testStr = "SELECT  *  FROM GALLERY WHERE imagename='"+path+"'";
 
              pull =  tx.executeSql(testStr);
 
 
            if(pull.rows.length == 0) {
 
-                     data = [id,artname,type,image,race,aclass,download,cost,base,artdiscription.replace(/\'/g,"&#x27;"),identkey];
+                     data = [id,artname.replace(/\'/g,"&#x27;"),type,path,race,aclass,download,cost,base,artdiscription.replace(/\'/g,"&#x27;"),identkey,idata];
                 tx.executeSql(insert,data);
 
            } else {
 
-                updateUser = "UPDATE GALLERY SET name='"+artname+"'type='"+type+"',imagename='"+image+"',race='"+race+"',class='"+aclass+"',download='"+download+"',cost='"+cost+"',base='"+base+"',discription='"+artdiscription+",ident='"+identkey+"' WHERE imagename='"+image+"'";
+                updateUser = "UPDATE GALLERY SET name='"+artname.replace(/\'/g,"&#x27;")+"',type='"+type+"',imagename='"+path+"',race='"+race+"',class='"+aclass+"',download='"+download+"',cost='"+cost+"',base='"+base+"',discription='"+artdiscription.replace(/\'/g,"&#x27;")+"',ident='"+identkey+"',imagedata='"+idata+"' WHERE imagename='"+path+"'";
                tx.executeSql(updateUser);
 
            }
@@ -274,13 +233,41 @@ function load_img(type) {
 
 }
 
-function load_gallery() {
+
+function delete_img(image) {
 
     var db = Sql.LocalStorage.openDatabaseSync("ImageStore", "1.0", "Images", 1);
 
 
     db.transaction(function(tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT)');
+
+        tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT,imagedata BLOB)');
+
+    var testStr = "SELECT  *  FROM GALLERY WHERE imagename = '"+image+"'";
+
+    var pull =  tx.executeSql(testStr);
+    var itemnum = 0;
+
+        if(pull.rows.length == 0) {
+            console.log("No image found") }
+        else {
+            console.log("Deleting: "+image);
+            var deletefile = "DELETE FROM GALLERY WHERE imagename='"+image+"'";
+            tx.executeSql(deletefile);
+        }
+
+     });
+}
+
+function load_gallery() {
+
+    imagelist.clear();
+
+    var db = Sql.LocalStorage.openDatabaseSync("ImageStore", "1.0", "Images", 1);
+
+
+    db.transaction(function(tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS GALLERY (id TEXT,name TEXT,type TEXT ,imagename TEXT ,race TEXT,class TEXT,download INT,cost DOUBLE,base INT,discription TEXT,ident TEXT,imagedata BLOB)');
 
         var testStr = "SELECT  *  FROM GALLERY WHERE 1";
 
@@ -300,8 +287,14 @@ function load_gallery() {
 
                 imagelist.append({
                     name : pull.rows.item(itemnum).name,
-                    img : pull.rows.item(itemnum).imagename
-
+                    img : pull.rows.item(itemnum).imagename,
+                    trace :pull.rows.item(itemnum).race,
+                    tclass :  pull.rows.item(itemnum).class,
+                    type : pull.rows.item(itemnum).type,
+                    tdownload : pull.rows.item(itemnum).download,
+                    tcost :pull.rows.item(itemnum).cost,
+                    tbase : pull.rows.item(itemnum).base,
+                    tdiscription : pull.rows.item(itemnum).discription,
 
                     });
 
@@ -317,4 +310,358 @@ function load_gallery() {
 }
 
 
+//adventure mode //
 
+
+function list_stories() {
+
+    storylist.clear();
+
+
+
+    var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
+
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS STORY (id TEXT,storyid TEXT,title TEXT,author TEXT, contact TEXT ,story TEXT ,summary TEXT,characters TEXT,publish INT,donations INT,paypal TEXT,patreon TEXT,coinbase TEXT,date TEXT,cover TEXT,coverdata BLOB)');
+
+        var testStr = "SELECT  *  FROM STORY WHERE 1";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+
+
+        storylist.append({
+
+                     name:"Add New",
+                     img:"graphics/newImageAdd.png",
+                     stories:"noid"
+
+                         });
+
+
+        while(pull.rows.length > itemnum) {
+            var thecover;
+            if(pull.rows.item(itemnum).cover == " ") {thecover = "graphics/book.png"} else {thecover = pull.rows.item(itemnum).cover}
+
+
+            storylist.append({
+
+                         name:pull.rows.item(itemnum).title,
+                         img:thecover,
+                         stories:pull.rows.item(itemnum).storyid,
+
+                                 theauthor:pull.rows.item(itemnum).author,
+                                 thecontact:pull.rows.item(itemnum).contact,
+                                 thestory:pull.rows.item(itemnum).story,
+                                 thesummary:pull.rows.item(itemnum).summary,
+                                 thecharacters:pull.rows.item(itemnum).characters,
+                                 thepublished:pull.rows.item(itemnum).publish,
+                                 thedonations:pull.rows.item(itemnum).donations,
+                                 thepaypal:pull.rows.item(itemnum).paypal,
+                                 thepatreon:pull.rows.item(itemnum).patreon,
+                                 thecoinbase:pull.rows.item(itemnum).coinbase,
+                                 thecreationdate:pull.rows.item(itemnum).date,
+                                 thecover:pull.rows.item(itemnum).cover,
+                                 thestoryid:pull.rows.item(itemnum).storyid
+
+
+
+                             });
+
+            itemnum = itemnum + 1;
+
+        }
+
+         });
+
+}
+
+function save_story() {
+
+
+
+    var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
+    var insert;
+
+    var data;
+
+     var d = new Date();
+
+    if(story_title.length > 2 && author.length > 2 && storyid.length > 2) {
+
+    if (storyid == "noid") {
+    storyid = author.replace(/\'/g,"").trim()+"::"+d.getTime()+"::"+story_title.replace(/\'/g,"").trim()
+    }
+
+
+
+    db.transaction(function(tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS STORY (id TEXT,storyid TEXT,title TEXT,author TEXT, contact TEXT ,story TEXT ,summary TEXT,characters TEXT,publish INT,donations INT,paypal TEXT,patreon TEXT,coinbase TEXT,date TEXT,cover TEXT,coverdata BLOB)');
+
+        var testStr = "SELECT  *  FROM STORY WHERE storyid ='"+storyid+"'";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+       if(pull.rows.length == 0) {
+
+
+            insert = "INSERT INTO STORY VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+           data = [id,storyid,story_title.replace(/\'/g,"&#x27;"),author.replace(/\'/g,"&#x27;"),story_contact,story.replace(/\'/g,"&#x27;"),story_summary.replace(/\'/g,"&#x27;"),characters,story_pub,story_donations,story_paypal,story_patreon,story_coinbase,pub_date,cover,coverdata];
+
+             tx.executeSql(insert,data);
+
+        } else {
+
+           var updateStory = "UPDATE STORY SET title='"+story_title.replace(/\'/g,"&#x27;")+"',author='"+author+"',contact='"+story_contact+"',story='"+story.replace(/\'/g,"&#x27;")+"',summary='"+story_summary.replace(/\'/g,"&#x27;")+"',characters='"+characters+"',publish='"+story_pub+"',donations='"+story_donations+"',paypal='"+story_paypal+
+                   "',patreon='"+story_patreon+"',coinbase='"+story_coinbase+"',date='"+pub_date+"',cover='"+cover+"',coverdata='"+coverdata+"' WHERE storyid='"+storyid+"'";
+          tx.executeSql(updateStory);
+
+       }
+
+
+        });
+
+    }
+
+
+
+}
+
+
+
+
+
+function mapgrid() {
+
+
+
+   var tilenum = 0;
+
+     //tiles = new Array(maxIndex);
+
+   //Initialize Board
+
+    if(mapcreated == 0) {
+   for (var column = 0; column < maxColumn; column++) {
+      for (var row = 0; row < maxRow; row++) {
+
+           createBlock(column, row, tilenum);
+            tilenum= tilenum +1;
+       }
+   }
+   mapcreated = 1;
+    }
+
+
+}
+
+function createBlock(column, row, num) {
+
+    if (component == null)
+        component = Qt.createComponent("./Tile.qml");
+
+    // Note that if tile.qml was not a local file, component.status would be
+    // Loading and we should wait for the component's statusChanged() signal to
+    // know when the file is downloaded and ready before calling createObject().
+
+    if (component.status == Component.Ready) {
+        var dynamicObject = component.createObject(maparea);
+        if (dynamicObject == null) {
+            console.log("error creating block");
+            console.log(component.errorString());
+            return false;
+        }
+        var blockSizex = maparea.width /50.7;
+        var blockSizey = maparea.width /50.7;
+
+
+        dynamicObject.x =(column * blockSizex);
+        dynamicObject.y =(row * blockSizey);
+
+        dynamicObject.width = blockSizex * 1.0;
+        dynamicObject.height = blockSizey *1.0;
+
+        dynamicObject.num = num;
+        dynamicObject.row = row;
+        dynamicObject.column = column;
+        dynamicObject.cw_tile = 0;
+        dynamicObject.cf_tile = 0;
+        dynamicObject.base_tile = 0;
+
+       tiles[num] = dynamicObject;
+
+
+
+
+    } else {
+        console.log("error loading block component");
+        console.log(component.errorString());
+        return false;
+    }
+
+    return true;
+}
+
+function save_map() {
+    var num = 0;
+    var mapdata =num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
+    while (num < maxIndex) {
+       mapdata = mapdata+num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
+        num = num + 1;
+    }
+
+    var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
+    var enemymap;
+    var charactermap;
+    var itemmap;
+    var exitmap;
+    var data;
+
+
+
+    if(maptitle != " " && storyid != " ") {
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS MAPS (id TEXT,storyid TEXT,mapid TEXT,title TEXT,discription TEXT,mapdata TEXT,enemymap TEXT,itemmap TEXT,charactermap TEXT,exitmap TEXT)');
+
+        var testStr = "SELECT  *  FROM MAPS WHERE 1";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+        if(pull.rows.length == 0) {
+
+
+
+             mapid = storyid+"_"+pull.rows.length+1;
+
+                console.log("Creating new map "+mapid);
+            var insert = "INSERT INTO MAPS VALUES(?,?,?,?,?,?,?,?,?,?)";
+            data = [id,storyid,mapid,maptitle.replace(/\'/g,"&#x27;"),mapdiscription.replace(/\'/g,"&#x27;"),mapdata,enemymap,itemmap,charactermap,exitmap];
+
+              tx.executeSql(insert,data);
+
+         } else {
+                console.log("Updating map "+mapid);
+            var updateMap = "UPDATE MAPS SET title='"+maptitle.replace(/\'/g,"&#x27;")+"',discription='"+mapdiscription.replace(/\'/g,"&#x27;")+"',mapdata='"+mapdata+"',enemymap='"+enemymap+"',charactermap='"+charactermap+"',itemmap='"+itemmap+"',exitmap='"+exitmap+"' WHERE mapid='"+mapid+"'";
+           tx.executeSql(updateMap);
+
+
+
+        }
+
+
+
+
+        });
+
+    }
+}
+
+
+function load_map() {
+
+    var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
+
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS MAPS (id TEXT,storyid TEXT,mapid TEXT,title TEXT,discription TEXT,mapdata TEXT,enemymap TEXT,itemmap TEXT,charactermap TEXT,exitmap TEXT');
+
+        var testStr = "SELECT  *  FROM MAPS WHERE 1";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+
+        });
+
+
+}
+
+
+
+function clearmap() {
+
+    var num = 0;
+
+    while (num < maxIndex) {
+       tiles[num].cw_tile = 0;
+        tiles[num].cf_tile = 0;
+        tiles[num].base_tile = 0;
+        num = num + 1;
+    }
+
+}
+
+
+function autowall() {
+    var num = 0;
+
+    while(num < maxIndex) {
+
+        if((num+maxRow) <maxIndex) {
+
+            if(tiles[num+maxRow].cw_tile == 1) {
+                if(tiles[num+1].cw_tile == 1) {
+                        if(tiles[num].cw_tile == 1 || tiles[num].cw_tile == 7) {
+                            tiles[num].cw_tile = 7;
+                        } else {
+                            tiles[num].cw_tile = 11;
+                        }
+                        tiles[num+maxRow].cw_tile =3;
+                    }
+
+                if(tiles[num-1].cw_tile == 1) {
+                    if(tiles[num].cw_tile == 1 || tiles[num].cw_tile == 10) {
+                        tiles[num].cw_tile = 10;
+                    } else {
+                        tiles[num].cw_tile = 12;
+                    }
+                    tiles[num+maxRow].cw_tile =4;
+                }
+
+                if(tiles[num-1].cw_tile != 1 && tiles[num+1].cw_tile != 1) {
+                    if(tiles[num].cw_tile == 1) {
+                        if((num-maxRow) > 0) {
+                        if(tiles[num-maxRow].cw_tile == 4 || tiles[num-maxRow].cw_tile == 10) {
+                                tiles[num].cw_tile = 4;
+                        } else {
+                            tiles[num].cw_tile = 3;
+                        }
+                                }
+                    }
+                }
+
+    }
+
+        if(tiles[num+maxRow].cw_tile == 4) {
+
+            if(tiles[num+1].cw_tile == 1) {
+                    if(tiles[num].cw_tile == 1 || tiles[num].cw_tile == 7) {
+                        tiles[num].cw_tile = 9;
+                    } else {
+                        //tiles[num].cw_tile = 12;
+                    }
+                    tiles[num+maxRow].cw_tile =3;
+                }
+
+            if(tiles[num+(maxRow+1)].cw_tile == 1) {
+                        tiles[num].cw_tile = 10;
+            }
+
+
+        }
+
+
+
+    }
+
+
+
+
+    num = num + 1;
+    }
+}

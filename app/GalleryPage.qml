@@ -55,7 +55,18 @@ GridView {
                 onExited: footer.state = "hide"
                 hoverEnabled : true
 
-                onClicked:if(name == "AddNew") {newArt.state = "Show"} else {console.log("Working on it")}
+                onClicked:if(name == "AddNew") {newArt.state = "Show"} else {
+                                race = trace,
+                                aclass= tclass,
+                                artdiscription=tdiscription,
+                                download=tdownload,
+                                cost=tcost,
+                                base=tbase,
+                                artname=name,
+                                        editArt.type = type,
+                                       editArt.preview = img,
+                                      editArt.title = name,
+                                      editArt.state = "Show"}
             }
             }
 
@@ -84,6 +95,15 @@ NewArt {
     width:parent.width * 0.60
     height:parent.height * 0.60
     state:"Hide"
+}
+
+EditArt {
+    id:editArt
+    anchors.centerIn: parent
+    width:parent.width * 0.80
+    height:parent.height * 0.90
+    state:"Hide"
+
 }
 
 }

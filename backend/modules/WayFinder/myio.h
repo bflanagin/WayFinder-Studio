@@ -8,6 +8,12 @@
 #include <QCryptographicHash>
 #include <QNetworkAccessManager>
 #include <QProcess>
+#include <QImage>
+#include <QBuffer>
+#include <QDebug>
+
+
+
 
 class MyIOout : public QObject
 {
@@ -15,11 +21,13 @@ class MyIOout : public QObject
     Q_PROPERTY( QString store READ store WRITE file NOTIFY filesaved )
     Q_PROPERTY( QString create READ create WRITE directory NOTIFY filesaved )
     Q_PROPERTY( QString send READ send WRITE upload NOTIFY filesaved )
+    Q_PROPERTY( QString image READ image WRITE image_make NOTIFY filesaved )
 
 
 public:
     explicit MyIOout(QObject *parent = 0);
     ~MyIOout();
+
 
 Q_SIGNALS:
     void filesaved();
@@ -29,6 +37,7 @@ protected:
     QString store() {return m_message; }
     QString create() {return m_message; }
     QString send() {return m_message; }
+    QString image() {return the_image; }
 
 
     void file(QString msg) {
@@ -39,11 +48,28 @@ protected:
             QDir things(data);
                 QString direct = msg.split(",")[0];
                 QString filepath = msg.split(",")[1].split("://")[1];
-                QString filename = filepath.split("/").last();
-            QString wherearewe = things.path()+"/images/"+direct+"/"+filename;
-            QFile::copy(filepath,things.path()+"/images/"+direct+"/"+filename);
+                QString filename = filepath.split("/").last().split(".")[0];
+            QString wherearewe = things.path()+"/images/"+direct+"/"+filename+".png";
 
-            m_message = wherearewe;
+
+
+            QImage image;
+
+
+             QString idata;
+            if(image.load(filepath) == true) {
+                QByteArray imagearray;
+                QBuffer buff(&imagearray);
+                buff.open( QIODevice::WriteOnly );
+                image.save(&buff,"PNG");
+                image.save(things.path()+"/images/"+direct+"/"+filename+".png","PNG");
+                idata = imagearray.toBase64();
+                buff.close();
+                imagearray.clear();
+
+            }
+
+            m_message = wherearewe+":;:"+idata;
 
     }
 
@@ -66,21 +92,52 @@ protected:
 
     }
 
-    void upload(QString msg) {
-       /* QProcess process;
-        QString pass = "A1ml355E!";
-        QString user = "bflanagin";
-        QString host = "openseed.vagueentertainment.com";
-        process.start("/usr/bin/ftp");
-        process.waitForFinished();
-        process.readAllStandardOutput();
-        process.readAllStandardError(); */
+    void image_make(QString msg) {
 
-        m_message = "trying to send "+ msg;
+
+            QImage image;
+
+
+           image.loadFromData(QByteArray::fromBase64(msg.toLocal8Bit()),"PNG");
+
+
+         // image.save("/home/benjamin/fromimage_make.png");
+
+            the_image ="making image";
+
     }
 
 
+
+   void upload(QString msg) {
+
+        QString imagefile = msg.split(',')[1];
+        QString type = msg.split(',')[0];
+
+        QImage image;
+
+
+         QString data;
+        if(image.load(imagefile) == true) {
+            QByteArray imagearray;
+            QBuffer buff(&imagearray);
+            buff.open( QIODevice::WriteOnly );
+            image.save(&buff, "PNG");
+            data = imagearray.toBase64();
+            buff.close();
+            imagearray.clear();
+
+
+        }
+
+        m_message = data;
+
+    }
+
+    QString the_image;
     QString m_message;
 };
 
 #endif // MYTYPE_H
+
+

@@ -24,6 +24,7 @@ Item {
     id:window_container
 
 
+
     states: [
 
         State {
@@ -59,6 +60,7 @@ Rectangle {
     radius:8
     color:UbuntuColors.coolGrey
     border.color:UbuntuColors.warmGrey
+
 
     Rectangle {
         anchors.fill:options
@@ -102,6 +104,40 @@ Rectangle {
 
 
         ComboButton {
+            id:artclass
+            width:parent.width
+            //height:window.height * 0.10
+            text:if(aclass == ""){"Class"} else {aclass}
+            onTextChanged: aclass = text
+            GridView {
+                    width:parent.width
+                    cellWidth: parent.width * 0.98
+                    cellHeight: parent.height * 0.20
+                    model: ["Item","Weapon","Concept Art","Creature",
+                        "------------------------------------------------------------------","Fighter","Wizard","Rogue"]
+                    delegate:
+
+
+
+                        Text {
+
+                        horizontalAlignment: Text.AlignHCenter
+                        text: modelData
+                        width:parent.width
+
+
+                        MouseArea {
+                            anchors.fill:parent
+                            onClicked: {artclass.text = modelData
+                                        artclass.expanded = false}
+                        }
+                    }
+            }
+
+        }
+
+
+        ComboButton {
 
             id:artrace
             text:if(race == ""){"Race"} else {race}
@@ -130,33 +166,7 @@ Rectangle {
 
             }
         }
-        ComboButton {
-            id:artclass
-            width:parent.width
-            //height:window.height * 0.10
-            text:if(aclass == ""){"Class"} else {aclass}
-            onTextChanged: aclass = text
-            ListView {
-                    spacing:5
-                    model: ["Fighter","Wizard","Rogue"]
-                    delegate:
 
-                        Text {
-
-                        horizontalAlignment: Text.AlignHCenter
-                        text: modelData
-                        width:parent.width
-
-
-                        MouseArea {
-                            anchors.fill:parent
-                            onClicked: {artclass.text = modelData
-                                        artclass.expanded = false}
-                        }
-                    }
-            }
-
-        }
         Text {
             text:"Download: "
             color:"white"
@@ -258,7 +268,7 @@ Rectangle {
     }
     MouseArea {
         anchors.fill:parent
-        onClicked:window_container.state = "Hide",imagelist.clear(),Scripts.load_gallery()
+        onClicked:window_container.state = "Hide",Scripts.load_gallery()
         hoverEnabled: true
         onEntered: closebutton.color = "grey"
         onExited: closebutton.color = UbuntuColors.coolGrey
@@ -309,14 +319,14 @@ FileDialog {
             case 1:
 
                 fileio.store = "library,"+fileDialog.fileUrls;
-                 preview = fileio.store;
-                Scripts.store_img("library",preview);
+                 preview = fileio.store.split(":;:")[0];
+                Scripts.store_img("library",fileio.store);
                 break;
             case 2:
 
                 fileio.store = "library,"+fileDialog.fileUrls;
-                preview = fileio.store;
-                Scripts.store_img("private",preview);
+                preview = fileio.store.split(":;:")[0];
+                Scripts.store_img("private",fileio.store);
                 break;
 
             default:break;

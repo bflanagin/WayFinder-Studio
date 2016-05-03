@@ -26,39 +26,82 @@ MainView {
     property string devId: "Vag-01001011"
     property string appId: "VagRpg-45454"
 
-    property string username: ""
-    property string useremail: ""
-    property string id: ""
+
+    property date currentdate: new Date()
+    property string thedate: currentdate.getDay()+"-"+currentdate.getMonth()+"-"+currentdate.getFullYear()
+
+    property string username: " "
+    property string useremail: " "
+    property string id: " "
 
 
-    property string artistname: ""
-    property string storename: ""
-    property string discription: ""
+    property string artistname: " "
+    property string storename: " "
+    property string discription: " "
     property string contact: ""
     property int commissions: 0
     property int pub: 0
     property int donations: 0
 
-    property string paypal: ""
+    property string paypal: " "
     property string patreon: ""
-    property string coinbase: ""
+    property string coinbase: " "
 
-    property string avatarimg: ""
-    property string sampleimg: ""
+    property string avatarimg: " "
+    property string sampleimg: " "
 
 
-    property string race: ""
-    property string aclass: ""
+    property string race: " "
+    property string aclass: " "
 
     property string cost: "0.00"
     property int download: 1
     property int base: 0
 
-    property string artdiscription: ""
-    property string artname: ""
+    property string artdiscription: " "
+    property string artname: " "
     property string heart: "Offline"
     property int updateinterval: 2000
     property int changes: 0
+
+    property string imagedata: " "
+
+
+    //story variables //
+
+    property string story_title: " "
+    property string author: " "
+    property string story_summary: " "
+    property string story_contact: " "
+    property string story: " "
+    property string characters: " "
+    property int story_pub: 0
+    property int story_donations: 0
+    property string story_paypal: " "
+    property string story_patreon: " "
+    property string story_coinbase: " "
+
+    property string cover: " "
+    property string coverdata: " "
+    property string pub_date: " "
+    property string storyid: " "
+
+
+    //map variables//
+
+
+    property int mapcreated: 0
+    property int quickfill: 0
+
+    property int current_cw: 0
+    property int current_cf: 0
+    property int current_base: 0
+
+    property string maptitle: " "
+    property string mapdiscription: " "
+    property string mapid: " "
+
+
 
 
     Timer {
@@ -76,7 +119,7 @@ MainView {
         running:true
         repeat:true
         onTriggered: { if(heart == "Online" && changes == 1) {
-                        OpenSeed.send_info();
+                        //OpenSeed.send_info();
             }
                  OpenSeed.heartbeat()
         }

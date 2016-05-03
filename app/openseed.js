@@ -213,7 +213,7 @@ function retrieve_gallery() {
 
 }
 
-function send_gallery() {
+function send_gallery(image) {
 
     var http = new XMLHttpRequest();
     var url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/gallery.php";
@@ -237,7 +237,7 @@ function send_gallery() {
     http.open('POST', url.trim(), true);
     //http.send(null);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.send("devid=" + devId + "&appid=" + appId + "&id="+ id + "&type=update" );
+    http.send("&id="+ id + "&image=" + image + "&type=update" );
 
 
 }
@@ -288,6 +288,7 @@ function send_info() {
 
                 //createdb();
                 send_images("artist","avatar",avatarimg);
+                send_images("artist","sample",avatarimg);
                 changes = 0;
             }
 
@@ -304,6 +305,9 @@ function send_images(where,type,image) {
 
     var http = new XMLHttpRequest();
     var url = "";
+    var imagedata = "";
+    fileio.send = type+","+image;
+    imagedata = fileio.send;
 
         if(where == "artist") {
         url = "http://openseed.vagueentertainment.com/devs/"+devId+"/"+appId+"/scripts/info-images.php";
@@ -320,16 +324,15 @@ function send_images(where,type,image) {
                 console.log("Incorrect AppID");
             } else {
                 //console.log(http.responseText);
-                fileio.send = "test";
-                //createdb();
+
+
             }
 
         }
     }
     http.open('POST', url.trim(), true);
-    //http.send(null);
 
    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.send("id="+id+"&type="+type+"&imagename="+image);
+    http.send("id="+id+"&type="+type+"&imagename="+image+"&imagedata="+imagedata);
 
 }

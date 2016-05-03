@@ -291,11 +291,11 @@ Item {
         width:parent.width * 0.70
         height:parent.height * 0.85
         source:if(sampleimg == "") {"graphics/newImageAdd.png"} else {sampleimg}
-        fillMode:Image.PreserveAspectCrop
+        fillMode:if(source =="graphics/newImageAdd.png") {Image.PreserveAspectFit} else {Image.PreserveAspectCrop}
 
         MouseArea {
             anchors.fill:parent
-            onClicked:where =2, fileDialog.visible = true
+            onClicked:where = 2, fileDialog.visible = true
         }
 
     }
@@ -321,14 +321,14 @@ Item {
                 case 1:
 
                     fileio.store = "avatar,"+fileDialog.fileUrls;
-                    avatarimg = fileio.store;
-                    Scripts.store_img("avatar",avatarimg);
+                    avatarimg = fileio.store.split(":;:")[0];
+                    Scripts.store_img("avatar",fileio.store);
                     break;
                 case 2:
 
-                    fileio.store = "sample,"+fileDialog.fileUrls;
-                    sampleimg = fileio.store;
-                    Scripts.store_img("sample",sampleimg);
+                    fileio.store = "sample,"+ fileDialog.fileUrls;
+                    sampleimg = fileio.store.split(":;:")[0];
+                    Scripts.store_img("sample",fileio.store);
                     break;
 
                 default:break;

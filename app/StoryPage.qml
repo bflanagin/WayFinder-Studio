@@ -2,7 +2,56 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import QtQuick.Dialogs 1.0
 
+import QtQuick.LocalStorage 2.0 as Sql
+
+import "Main.js" as Scripts
+
+
+
 Item {
+    clip:true
+    id:storypage
+
+
+    Timer {
+        id:autosave
+        interval:2000
+        running:false
+        onTriggered: Scripts.save_story();
+    }
+
+
+
+    Item {
+        id:leftside
+        height:parent.height
+        width: parent.width
+
+        states: [
+
+            State {
+                name: "Hide"
+                PropertyChanges {
+                    target: leftside
+                    x:-parent.width * 0.60
+                }
+            },
+
+            State {
+                name: "Show"
+                PropertyChanges {
+                    target: leftside
+                    x:0
+
+                }
+            }
+
+        ]
+
+        state:"Hide"
+
+    onStateChanged: if(leftside.state == "Show") {autosave.running = true} else {autosave.running = false}
+
 
     Text {
         anchors.top:parent.top
@@ -42,6 +91,9 @@ Item {
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
+                    text:story_title
+                    onTextChanged: story_title = text
+
                 }
             }
 
@@ -53,6 +105,9 @@ Item {
                     anchors.left:parent.right
                     width:(settingscolumn.width - parent.width) * 0.96
                     anchors.verticalCenter: parent.verticalCenter
+                    text:author
+                    onTextChanged: author = text
+
                 }
             }
             Row {
@@ -69,6 +124,9 @@ Item {
                     anchors.left:parent.right
                     width:(row1.width - parent.width) * 0.20
                    anchors.verticalCenter: parent.verticalCenter
+                   text:thedate
+                   onTextChanged: pub_date = text
+
                 }
             }
 
@@ -80,6 +138,10 @@ Item {
                     anchors.left:parent.right
                     width:(row1.width - parent.width) * 0.62
                     anchors.verticalCenter: parent.verticalCenter
+                    text:story_contact
+                    onTextChanged: story_contact = text
+
+
                 }
             }
             }
@@ -102,8 +164,10 @@ Item {
                     CheckBox {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.left:parent.right
-
                         id:pub
+                        checked:if(story_pub == 1) {true} else {false}
+                        onCheckedChanged: story_pub = checked,Scripts.save_story()
+
                     }
                 }
 
@@ -116,6 +180,9 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left:parent.right
                     id:donations
+                    checked:if(story_donations == 1) {true} else {false}
+                    onCheckedChanged: story_donations = checked,Scripts.save_story()
+
                 }
 
                 }
@@ -160,6 +227,9 @@ Item {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
+                            text:story_paypal
+                            onTextChanged: story_paypal = text
+
                         }
                     }
 
@@ -172,6 +242,8 @@ Item {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
+                            text:story_patreon
+                            onTextChanged: story_patreon = text
                         }
                     }
 
@@ -184,6 +256,8 @@ Item {
                             anchors.left:parent.right
                             width:(comoptscolumn.width - parent.width) * 0.96
                             anchors.verticalCenter: parent.verticalCenter
+                            text:story_coinbase
+                            onTextChanged: story_coinbase = text
                         }
                     }
 
@@ -227,7 +301,41 @@ Item {
         }
 
     }
+
+    }
+
+
+    Item {
+        id:rightside
+        height:parent.height
+        width: parent.width
+
+        states: [
+
+            State {
+                name: "Hide"
+                PropertyChanges {
+                    target: rightside
+                    x:parent.width * 0.60
+
+                }
+            },
+
+            State {
+                name: "Show"
+                PropertyChanges {
+                    target: rightside
+                    x:0
+
+                }
+            }
+
+        ]
+
+        state:"Hide"
+
     Text {
+        id:about
         anchors.top:parent.top
         anchors.topMargin:10
         anchors.left:storybg.left
@@ -238,7 +346,7 @@ Item {
 
     Rectangle {
         id:storybg
-        anchors.top:title.bottom
+        anchors.top:about.bottom
         anchors.topMargin:10
         anchors.right:parent.right
         anchors.rightMargin:10
@@ -272,6 +380,9 @@ Item {
 
                     width:storycolumn.width * 0.98
                     height:storycolumn.height / 3
+                    text:story_summary
+                    onTextChanged: story_summary = text
+                    onFocusChanged: Scripts.save_story()
                 }
             }
 
@@ -293,6 +404,9 @@ Item {
 
                     width:storycolumn.width * 0.98
                     height:storycolumn.height / 1.75
+                    text:story
+                    onTextChanged: story = text
+                     onFocusChanged: Scripts.save_story()
                 }
             }
 
@@ -302,6 +416,18 @@ Item {
 
 
 }
+
+    }
+
+   StoryPick {
+    anchors.centerIn: parent
+    width:parent.width * 0.70
+    height:parent.height * 0.60
+    state:"Show"
+
+   }
+
+
 
     FileDialog {
         id: fileDialog
