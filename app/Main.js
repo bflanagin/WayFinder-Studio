@@ -507,7 +507,8 @@ function createBlock(column, row, num) {
 
 function save_map() {
     var num = 0;
-    var mapdata =num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
+    var mapdata;
+    ///var mapdata =num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
     while (num < maxIndex) {
        mapdata = mapdata+num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
         num = num + 1;
@@ -521,31 +522,33 @@ function save_map() {
     var data;
 
 
-
     if(maptitle != " " && storyid != " ") {
 
     db.transaction(function(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS MAPS (id TEXT,storyid TEXT,mapid TEXT,title TEXT,discription TEXT,mapdata TEXT,enemymap TEXT,itemmap TEXT,charactermap TEXT,exitmap TEXT)');
 
-        var testStr = "SELECT  *  FROM MAPS WHERE 1";
+        var storyString = "SELECT  *  FROM MAPS WHERE storyid='"+storyid+"'";
+        var testStr = "SELECT  *  FROM MAPS WHERE mapid='"+mapid+"'";
+
+        var spull = tx.executeSql(storyString);
+
+        var mapnum =spull.rows.length+1;
 
         var pull =  tx.executeSql(testStr);
         var itemnum = 0;
 
         if(pull.rows.length == 0) {
 
+             mapid = storyid+"_"+pull.rows.length+mapnum;
 
-
-             mapid = storyid+"_"+pull.rows.length+1;
-
-                console.log("Creating new map "+mapid);
+                //console.log("Creating new map "+mapid);
             var insert = "INSERT INTO MAPS VALUES(?,?,?,?,?,?,?,?,?,?)";
             data = [id,storyid,mapid,maptitle.replace(/\'/g,"&#x27;"),mapdiscription.replace(/\'/g,"&#x27;"),mapdata,enemymap,itemmap,charactermap,exitmap];
 
               tx.executeSql(insert,data);
 
          } else {
-                console.log("Updating map "+mapid);
+                //console.log("Updating map "+mapid);
             var updateMap = "UPDATE MAPS SET title='"+maptitle.replace(/\'/g,"&#x27;")+"',discription='"+mapdiscription.replace(/\'/g,"&#x27;")+"',mapdata='"+mapdata+"',enemymap='"+enemymap+"',charactermap='"+charactermap+"',itemmap='"+itemmap+"',exitmap='"+exitmap+"' WHERE mapid='"+mapid+"'";
            tx.executeSql(updateMap);
 
@@ -562,22 +565,55 @@ function save_map() {
 }
 
 
-function load_map() {
+function load_map(map) {
 
     var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
 
+    mapid = map;
 
     db.transaction(function(tx) {
-        tx.executeSql('CREATE TABLE IF NOT EXISTS MAPS (id TEXT,storyid TEXT,mapid TEXT,title TEXT,discription TEXT,mapdata TEXT,enemymap TEXT,itemmap TEXT,charactermap TEXT,exitmap TEXT');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS MAPS (id TEXT,storyid TEXT,mapid TEXT,title TEXT,discription TEXT,mapdata TEXT,enemymap TEXT,itemmap TEXT,charactermap TEXT,exitmap TEXT)');
 
-        var testStr = "SELECT  *  FROM MAPS WHERE 1";
+        var testStr = "SELECT  *  FROM MAPS WHERE mapid='"+map+"'";
 
         var pull =  tx.executeSql(testStr);
         var itemnum = 0;
 
+        if(pull.rows.length == 1) {
+
+            maptitle = pull.rows.item(0).title.replace(/\&#x27;/g,"'");
+            mapdiscription = pull.rows.item(0).discription.replace(/\&#x27;/g,"'");
+
+            var griddata = pull.rows.item(0).mapdata;
+            fillmap(griddata,"base");
+
+
+        } else {
+            console.log("NEW MAP!!!");
+        }
+
 
         });
 
+
+}
+
+
+function fillmap(griddata,layer) {
+
+    var placement = griddata.split(",");
+    var num = 1;
+
+
+
+    while(num < maxIndex) {
+        tiles[num].cf_tile = placement[num].split(";")[1];
+        tiles[num].cw_tile =placement[num].split(";")[2];
+        tiles[num].base_tile = placement[num].split(";")[3];
+
+
+        num = num + 1;
+    }
 
 }
 
@@ -587,12 +623,55 @@ function clearmap() {
 
     var num = 0;
 
+    maptitle = " ";
+    mapdiscription = " ";
+    mapid = " ";
+
+
     while (num < maxIndex) {
        tiles[num].cw_tile = 0;
         tiles[num].cf_tile = 0;
         tiles[num].base_tile = 0;
         num = num + 1;
     }
+
+}
+
+
+function listmaps(story) {
+
+
+
+    var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
+
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS MAPS (id TEXT,storyid TEXT,mapid TEXT,title TEXT,discription TEXT,mapdata TEXT,enemymap TEXT,itemmap TEXT,charactermap TEXT,exitmap TEXT)');
+
+        var testStr = "SELECT  *  FROM MAPS WHERE storyid='"+story+"'";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+        while (itemnum < pull.rows.length) {
+
+                maplist.append ({
+
+                                    name:(itemnum+1)+"."+pull.rows.item(itemnum).title,
+                                    thestory:pull.rows.item(itemnum).storyid,
+                                    themap:pull.rows.item(itemnum).mapid
+                                });
+
+
+
+            itemnum = itemnum + 1;
+        }
+
+        });
+
+
+
+
 
 }
 

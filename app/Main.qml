@@ -85,6 +85,7 @@ MainView {
     property string coverdata: " "
     property string pub_date: " "
     property string storyid: " "
+    property string storysearch: " "
 
 
     //map variables//

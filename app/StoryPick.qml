@@ -64,6 +64,24 @@ Rectangle {
     border.color:UbuntuColors.warmGrey
 
 
+    TextField {
+        id:search
+        anchors.top:parent.top
+        anchors.right:parent.right
+        anchors.margins: 10
+        text:storysearch
+
+
+    Text {
+        text:i18n.tr("Search: ")
+        anchors.right:parent.left
+        color:"white"
+        anchors.verticalCenter: parent.verticalCenter
+        font.pixelSize: parent.height * 0.80
+
+    }
+
+    }
 
 
 

@@ -50,7 +50,7 @@ Item {
                 state:"Unselected"
                 MouseArea {
                     anchors.fill:parent
-                    onClicked:if(cust.state == "Selected") {cust.state = "Unselected"} else {cust.state = "Selected"}
+                    onClicked:if(cust.state == "Selected") {clearall();cust.state = "Unselected"} else {clearall();cust.state = "Selected",storyPages.state = "Hide",artPages.state = "Hide"}
                 }
             }
 
@@ -62,7 +62,9 @@ Item {
             art.state = "Unselected";
             artPages.state = "Hide";
             story.state = "Unselected";
-            storyPages.state = "Hide"
+            storyPages.state = "Hide";
+            cust.state = "Unselected";
+            //storyPages.state = "Hide";
 
     }
 
