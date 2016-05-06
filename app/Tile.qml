@@ -26,7 +26,7 @@ Rectangle {
         case 3:"#ACA069";break;
         case 4:"#86c6fd";break;
         case 5:"#d4d8dc";break;
-        default:"white";break;
+        default:Qt.rgba(0.5,0.5,0.5,0.01);break;
     }
     }
 
@@ -56,9 +56,6 @@ Image {
     }
 
     opacity:0.5
-
-
-   // visible:if(ctile != 0) {true} else {false}
 
 }
 
@@ -104,7 +101,7 @@ Rectangle {
     }
     }
 
-    border.color:"gray"
+    //border.color:"gray"
 
 
 

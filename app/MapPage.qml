@@ -18,7 +18,7 @@ Item {
 
     Timer {
         id:autowaller
-        running:true
+        running:false
         repeat:true
         interval:1000
         onTriggered:Scripts.autowall()
@@ -59,6 +59,31 @@ Item {
             width:parent.width * zoomlevel
             height:parent.width * zoomlevel
         }
+
+        Item {
+            id:enmaparea
+            width:parent.width * zoomlevel
+            height:parent.width * zoomlevel
+            visible: true
+
+        }
+
+        Item {
+            id:exmaparea
+            width:parent.width * zoomlevel
+            height:parent.width * zoomlevel
+            visible: true
+        }
+
+        Item {
+            id:imaparea
+            width:parent.width * zoomlevel
+            height:parent.width * zoomlevel
+            visible: true
+        }
+
+
+
 
     }
 
@@ -181,7 +206,7 @@ Item {
     }
 
     Rectangle {
-        id:zoomin
+        id:layer_picker
         anchors.left:parent.left
         anchors.top:parent.top
         anchors.margins:10
@@ -191,47 +216,209 @@ Item {
         color:UbuntuColors.coolGrey
         border.color:UbuntuColors.lightGrey
 
-        Text {
-            anchors.centerIn:parent
-            text: "+"
-            color:"white"
-            font.pixelSize:parent.width / 1.5
+        Image {
+            anchors.centerIn: parent
+            width:parent.width * 0.5
+            height:parent.width * 0.5
+            source:"/usr/share/icons/suru/actions/scalable/navigation-menu.svg"
         }
 
         MouseArea {
             anchors.fill:parent
-            onClicked:zoomlevel = zoomlevel+1
+            onClicked:if(layers.state =="Show") {layers.state ="Hide"} else {layers.state = "Show"}
         }
-    }
-    Rectangle {
-        id:zoomout
-        anchors.top:zoomin.bottom
-        anchors.topMargin:4
-        anchors.left:zoomin.left
-        height:parent.height * 0.04
-        width:parent.height * 0.04
-        radius:width / 2
-        color:UbuntuColors.coolGrey
-        border.color:UbuntuColors.lightGrey
 
-        Text {
-            anchors.centerIn:parent
-            text: "-"
-            color:"white"
-            font.pixelSize:parent.width / 1.5
+        Column {
+            id:layers
+            anchors.top:parent.bottom
+            width:parent.width
+            //height:parent.height * 4
+            spacing:4
+            clip:true
+
+            states: [
+                State {
+                    name:"Show"
+                    PropertyChanges {
+                        target: layers
+                        height:parent.height * 4
+                        opacity:1
+
+                    }
+                },
+
+                State {
+                    name:"Hide"
+                    PropertyChanges {
+                        target: layers
+                        height:0
+                        opacity:0
+
+                    }
+                }
+
+
+            ]
+
+            transitions: [
+                Transition {
+                    from: "Hide"
+                    to: "Show"
+
+                    NumberAnimation {
+                        target: layers
+                        property: "height"
+                        duration: 200
+                        easing.type: Easing.InOutQuad
+                    }
+
+                },
+
+                Transition {
+                    from: "Show"
+                    to: "Hide"
+
+                    NumberAnimation {
+                        target: layers
+                        property: "height"
+                        duration: 200
+                        easing.type: Easing.InOutQuad
+                    }
+
+                }
+
+
+            ]
+
+            state:"Hide"
+
+            Rectangle {
+                id:terrain
+                height:layer_picker.height
+                width:layer_picker.height
+                radius:width / 2
+                color:UbuntuColors.coolGrey
+                border.color:UbuntuColors.lightGrey
+
+                Image {
+                    anchors.fill:parent
+                    source:"graphics/map/terrain.png"
+                }
+
+                MouseArea {
+                    anchors.fill:parent
+                    onClicked:layers.state = "Hide",location_options.state = "Show",enemy_options.state ="Hide",items_options.state ="Hide",toolbox.state = "Show",currentlayer = 1;
+                }
         }
+
+            Rectangle {
+                id:enemies
+                height:layer_picker.height
+                width:layer_picker.height
+                radius:width / 2
+                color:UbuntuColors.coolGrey
+                border.color:UbuntuColors.lightGrey
+
+                Image {
+                    anchors.centerIn: parent
+                    width:parent.width * 0.65
+                    height:parent.width * 0.65
+                    source:"graphics/map/enemy.png"
+                }
+
+                MouseArea {
+                    anchors.fill:parent
+                    onClicked:layers.state = "Hide",location_options.state ="Hide",enemy_options.state ="Show",items_options.state ="Hide",toolbox.state = "Hide",currentlayer = 2;
+                }
+        }
+
+            Rectangle {
+                id:items
+                height:layer_picker.height
+                width:layer_picker.height
+                radius:width / 2
+                color:UbuntuColors.coolGrey
+                border.color:UbuntuColors.lightGrey
+
+                Image {
+                    anchors.centerIn: parent
+                    width:parent.width * 0.65
+                    height:parent.width * 0.65
+                    source:"graphics/map/items.png"
+                }
+
+                MouseArea {
+                    anchors.fill:parent
+                    onClicked:layers.state = "Hide",location_options.state ="Hide",enemy_options.state ="Hide",items_options.state ="Show",toolbox.state = "Hide",currentlayer = 3;
+                }
+        }
+
+
+        }
+
     }
 
-
-
     Rectangle {
-        anchors.right:parent.right
+        id:location_options
+
         anchors.top:parent.top
         height:parent.height
         width:parent.width * 0.20
         radius:8
         color:UbuntuColors.coolGrey
         border.color:UbuntuColors.lightGrey
+
+        states: [
+            State {
+                name: "Show"
+                PropertyChanges {
+                    target:location_options
+                    x:parent.width - width
+                }
+            },
+            State {
+                name: "Hide"
+                PropertyChanges {
+                    target:location_options
+                    x:parent.width
+                }
+            }
+
+        ]
+
+        transitions: [
+            Transition {
+                from: "Hide"
+                to: "Show"
+
+                NumberAnimation {
+                    target: location_options
+                    property: "x"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+
+            },
+
+            Transition {
+                from: "Show"
+                to: "Hide"
+
+                NumberAnimation {
+                    target: location_options
+                    property: "x"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+
+            }
+
+
+        ]
+
+
+        state:"Show"
+
 
         Column {
             id:roomcolumn
@@ -272,159 +459,347 @@ Item {
                     anchors.top:parent.bottom
                     anchors.topMargin:6
                     width:roomcolumn.width * 0.96
-                    height: roomcolumn.height / 3
+                    height: roomcolumn.height / 2
                     text:mapdiscription
                     onTextChanged: mapdiscription = text,autosave.running = true;
 
                 }
             }
             }
-            Item {
-                width:parent.width
-                height:enemies.height + enemies.y + 10
-                clip:true
 
-            Text {
-                text:i18n.tr("Enemies:")
-                color:"white"
-                x:4
-                font.pixelSize: roomcolumn.height * 0.025
 
-                Rectangle {
-                    anchors.centerIn: enemies
-                    width:enemies.width
-                    height:enemies.height * 1.08
-                    color:"white"
-                    radius:8
+        }
+    }
+
+
+    Rectangle {
+        id:enemy_options
+
+        anchors.top:parent.top
+        height:parent.height
+        width:parent.width * 0.20
+        radius:8
+        color:UbuntuColors.coolGrey
+        border.color:UbuntuColors.lightGrey
+
+        states: [
+            State {
+                name: "Show"
+                PropertyChanges {
+                    target:enemy_options
+                    x:parent.width - width
+                }
+            },
+            State {
+                name: "Hide"
+                PropertyChanges {
+                    target:enemy_options
+                    x:parent.width
+                }
+            }
+
+        ]
+
+        transitions: [
+            Transition {
+                from: "Hide"
+                to: "Show"
+
+                NumberAnimation {
+                    target: enemy_options
+                    property: "x"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
                 }
 
+            },
+
+            Transition {
+                from: "Show"
+                to: "Hide"
+
+                NumberAnimation {
+                    target: enemy_options
+                    property: "x"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+
+            }
+
+
+        ]
+
+
+        state:"Hide"
+
+
+        Column {
+            y:parent.height * 0.01
+            x:parent.width * 0.01
+            id:enroomcolumn
+            width:parent.width * 0.99
+            height:parent.height * 0.99
+            spacing:10
+
+            Text {
+                text:"Conflict:"
+                font.pixelSize: parent.width * 0.1
+                color:"White"
+            }
+
+            Item {
+                width:parent.width
+                height:combatants.height + combatants.y
+
+            Text {
+                text:i18n.tr("Combatants:")
+                color:"white"
+                x:4
+                font.pixelSize: enroomcolumn.height * 0.025
+
+                Rectangle {
+                    width:combatants.width
+                    height:combatants.height * 1.05
+                    color:UbuntuColors.coolGrey
+                    anchors.centerIn: combatants
+                    radius:8
+                    border.color: "gray"
+                }
 
                 GridView {
-                    id:enemies
-                    width:roomcolumn.width * 0.96
-                    height: roomcolumn.height * 0.20
+                    id:combatants
                     anchors.top:parent.bottom
-                    anchors.topMargin:8
-                    cellWidth:roomcolumn.width *0.96
-                    cellHeight:roomcolumn.height * 0.05
-
+                    anchors.topMargin:15
                     clip:true
+                    width:enroomcolumn.width * 0.96
+                    height: enroomcolumn.height / 3.5
+                    cellHeight:combatants.height *0.08
+                    cellWidth:combatants.width
 
-                    delegate:
-                        Image {
-                            source:img
-                            width:enemies.cellWidth
-                            height:enemies.cellHeight * 0.95
-
-
-
-                        Text {
-                            text:name
-                            anchors.centerIn: parent
-                        }
-                        MouseArea {
-                            anchors.fill:parent
-                            onClicked:console.log(name)
-                        }
-
-                    }
 
 
                     model: ListModel {
                         id:enemylist
 
-
-                    ListElement {
-                        name:"Add new"
-                        img:"graphics/newImageAdd.png"
+                        ListElement {
+                            enemy_name:"bad guy"
+                        }
                     }
 
+                    delegate :
+
+                        Item {
+
+                            height:combatants.cellHeight
+                            width:combatants.cellWidth
+
+                            Rectangle {
+                                x:combatants.cellWidth * 0.01
+                                width:combatants.cellWidth * 0.98
+                                height:combatants.cellHeight * 0.90
+                                color:"gray"
+                                border.color:"gray"
+
+                                Text {
+                                    x:parent.width * 0.04
+                                    text:enemy_name
+                                    font.pixelSize: parent.height * 0.6
+                                    color:"white"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width:parent.width * 0.90
+                                    clip:true
+                                }
+
+                                Rectangle {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.right:parent.right
+                                    anchors.rightMargin: 10
+                                    width:parent.height * 0.70
+                                    height:parent.height * 0.70
+                                    radius:width / 2
+                                    color:UbuntuColors.darkGrey
+
+                                }
+                            }
 
                     }
 
                 }
-
-
-
             }
-
-           }
+            }
 
             Item {
                 width:parent.width
-                height:items.height + items.y + 10
-                clip:true
+                height:npcs.height + npcs.y
 
             Text {
-                text:i18n.tr("Items:")
+                text:i18n.tr("NPCs:")
                 color:"white"
                 x:4
-                font.pixelSize: roomcolumn.height * 0.025
+                font.pixelSize: enroomcolumn.height * 0.025
 
                 Rectangle {
-                    anchors.centerIn: items
-                    width:items.width
-                    height:items.height * 1.08
-                    color:"white"
+                    width:npcs.width
+                    height:npcs.height * 1.05
+                    color:UbuntuColors.coolGrey
+                    anchors.centerIn: npcs
                     radius:8
+                    border.color: "gray"
                 }
 
-
                 GridView {
-                    id:items
-                    width:roomcolumn.width * 0.96
-                    height: roomcolumn.height * 0.20
+                    id:npcs
                     anchors.top:parent.bottom
-                    anchors.topMargin:8
-                    cellWidth:roomcolumn.width *0.96
-                    cellHeight:roomcolumn.height * 0.05
-
+                    anchors.topMargin:15
                     clip:true
+                    width:enroomcolumn.width * 0.96
+                    height: enroomcolumn.height / 3.5
+                    cellHeight:combatants.height *0.08
+                    cellWidth:combatants.width
 
-                    delegate:
-                        Image {
-                            source:img
-                            width:items.cellWidth
-                            height:items.cellHeight * 0.95
-
-
-
-                        Text {
-                            text:name
-                            anchors.centerIn: parent
-                        }
-                        MouseArea {
-                            anchors.fill:parent
-                            onClicked:console.log(name)
-                        }
-
-                    }
 
 
                     model: ListModel {
-                        id:itemlist
+                        id:npclist
 
-
-                    ListElement {
-                        name:"Add new"
-                        img:"graphics/newImageAdd.png"
+                        ListElement {
+                            name:"good guy"
+                        }
                     }
 
+                    delegate :
+
+                        Item {
+
+                            height:npcs.cellHeight
+                            width:npcs.cellWidth
+
+                            Rectangle {
+                                x:npcs.cellWidth * 0.01
+                                width:npcs.cellWidth * 0.98
+                                height:npcs.cellHeight * 0.90
+                                color:"gray"
+                                border.color:"gray"
+
+                                Text {
+                                    x:parent.width * 0.04
+                                    text:name
+                                    font.pixelSize: parent.height * 0.6
+                                    color:"white"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width:parent.width * 0.90
+                                    clip:true
+                                }
+
+                                Rectangle {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.right:parent.right
+                                    anchors.rightMargin: 10
+                                    width:parent.height * 0.70
+                                    height:parent.height * 0.70
+                                    radius:width / 2
+                                    color:UbuntuColors.darkGrey
+
+                                }
+                            }
 
                     }
 
                 }
-
-
-
+            }
             }
 
-           }
+
+
+
 
 
 
         }
     }
+
+    Rectangle {
+        id:items_options
+
+        anchors.top:parent.top
+        height:parent.height
+        width:parent.width * 0.20
+        radius:8
+        color:UbuntuColors.coolGrey
+        border.color:UbuntuColors.lightGrey
+
+        states: [
+            State {
+                name: "Show"
+                PropertyChanges {
+                    target:items_options
+                    x:parent.width - width
+                }
+            },
+            State {
+                name: "Hide"
+                PropertyChanges {
+                    target:items_options
+                    x:parent.width
+                }
+            }
+
+        ]
+
+        transitions: [
+            Transition {
+                from: "Hide"
+                to: "Show"
+
+                NumberAnimation {
+                    target: items_options
+                    property: "x"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+
+            },
+
+            Transition {
+                from: "Show"
+                to: "Hide"
+
+                NumberAnimation {
+                    target: items_options
+                    property: "x"
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+
+            }
+
+
+        ]
+
+
+        state:"Hide"
+
+
+        Column {
+            id:iroomcolumn
+            width:parent.width
+            height:parent.height
+            spacing:10
+
+            Text {
+                text:"Items"
+                color:"White"
+            }
+
+
+        }
+    }
+
+
+
+
+
 
 
     MapTools {
@@ -441,6 +816,8 @@ Item {
     id:maps
     state:"Hide"
     anchors.horizontalCenter: mapflick.horizontalCenter
+
+
     width:parent.width * 0.20
     height:parent.width * 0.13
 
@@ -577,17 +954,6 @@ Item {
             width:maps.width * 0.98
             height:label.height
             radius:8
-        }
-
-        Text {
-            id:label
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom:parent.bottom
-            anchors.bottomMargin:2
-
-            text:if(maps.state == "Show") {i18n.tr("New Map")} else {i18n.tr("Maps")}
-            color:"white"
-            font.pixelSize:parent.height * 0.1
 
             MouseArea {
                 width:maps.width
@@ -597,6 +963,19 @@ Item {
                 onEntered: lbacking.color = "gray";
                 onExited: lbacking.color = UbuntuColors.coolGrey;
             }
+        }
+
+        Text {
+            id:label
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom:parent.bottom
+            anchors.bottomMargin:2
+
+            text:if(maps.state == "Show") {i18n.tr("New Location")} else {i18n.tr("Locations")}
+            color:"white"
+            font.pixelSize:parent.height * 0.1
+
+
         }
     }
 
