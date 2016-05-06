@@ -91,7 +91,14 @@ MainView {
     //map variables//
 
 
-    property int mapcreated: 0
+    property int mapcreated: 0 //terrain map
+    property int enmapcreated: 0 //enemy map
+    property int exmapcreated: 0 //exit map
+    property int imapcreated: 0 //item map
+
+    property int currentlayer: 0
+
+
     property int quickfill: 0
 
     property int current_cw: 0
@@ -174,6 +181,31 @@ MyIOout {
             source:"graphics/wayfinder-big.png"
             fillMode:Image.PreserveAspectFit
             opacity:0.40
+        }
+
+        Rectangle {
+            id:codex
+            width:parent.width * 0.05
+            height:parent.width * 0.05
+            radius:width / 2
+            anchors.top:parent.top
+            anchors.right:parent.right
+            anchors.margins: parent.width * 0.02
+            border.color:"gray"
+            color:UbuntuColors.coolGrey
+
+            Image {
+               source:"/usr/share/icons/suru/actions/scalable/bookmark.svg"
+               anchors.centerIn:parent
+               width:parent.width * 0.5
+               height:parent.width * 0.5
+
+            }
+
+            MouseArea {
+                anchors.fill:parent
+                onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip")
+            }
         }
 
         Item {

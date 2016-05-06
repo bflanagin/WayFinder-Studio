@@ -448,7 +448,7 @@ function mapgrid() {
    for (var column = 0; column < maxColumn; column++) {
       for (var row = 0; row < maxRow; row++) {
 
-           createBlock(column, row, tilenum);
+           createBlock(column, row, tilenum,maparea);
             tilenum= tilenum +1;
        }
    }
@@ -458,7 +458,80 @@ function mapgrid() {
 
 }
 
-function createBlock(column, row, num) {
+function enemygrid() {
+
+
+
+   var tilenum = 0;
+
+     //tiles = new Array(maxIndex);
+
+   //Initialize Board
+
+    if(enmapcreated == 0) {
+   for (var column = 0; column < maxColumn; column++) {
+      for (var row = 0; row < maxRow; row++) {
+
+           createBlock(column, row, tilenum,enmaparea);
+            tilenum= tilenum +1;
+       }
+   }
+   enmapcreated = 1;
+    }
+
+
+}
+
+function itemgrid() {
+
+
+
+   var tilenum = 0;
+
+     //tiles = new Array(maxIndex);
+
+   //Initialize Board
+
+    if(imapcreated == 0) {
+   for (var column = 0; column < maxColumn; column++) {
+      for (var row = 0; row < maxRow; row++) {
+
+           createBlock(column, row, tilenum,imaparea);
+            tilenum= tilenum +1;
+       }
+   }
+   imapcreated = 1;
+    }
+
+
+}
+
+function exitgrid() {
+
+
+
+   var tilenum = 0;
+
+     //tiles = new Array(maxIndex);
+
+   //Initialize Board
+
+    if(exmapcreated == 0) {
+   for (var column = 0; column < maxColumn; column++) {
+      for (var row = 0; row < maxRow; row++) {
+
+           createBlock(column, row, tilenum,exmaparea);
+            tilenum= tilenum +1;
+       }
+   }
+   exmapcreated = 1;
+    }
+
+
+}
+
+
+function createBlock(column, row, num,area) {
 
     if (component == null)
         component = Qt.createComponent("./Tile.qml");
@@ -468,14 +541,14 @@ function createBlock(column, row, num) {
     // know when the file is downloaded and ready before calling createObject().
 
     if (component.status == Component.Ready) {
-        var dynamicObject = component.createObject(maparea);
+        var dynamicObject = component.createObject(area);
         if (dynamicObject == null) {
             console.log("error creating block");
             console.log(component.errorString());
             return false;
         }
-        var blockSizex = maparea.width /50.7;
-        var blockSizey = maparea.width /50.7;
+        var blockSizex = area.width /50.7;
+        var blockSizey = area.width /50.7;
 
 
         dynamicObject.x =(column * blockSizex);
