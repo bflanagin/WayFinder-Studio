@@ -817,3 +817,14 @@ function autowall() {
     num = num + 1;
     }
 }
+
+// codex functions
+
+function codex(type) {
+    console.log(type);
+
+}
+
+function codex_article(type,thingid) {
+
+}

@@ -788,8 +788,171 @@ Item {
             spacing:10
 
             Text {
-                text:"Items"
+                text:"Stationaries:"
+                font.pixelSize: parent.width * 0.1
                 color:"White"
+            }
+
+            Item {
+                width:parent.width
+                height:item.height + item.y
+
+            Text {
+                text:i18n.tr("Treasures and Drops:")
+                color:"white"
+                x:4
+                font.pixelSize: iroomcolumn.height * 0.025
+
+                Rectangle {
+                    width:item.width
+                    height:item.height * 1.05
+                    color:UbuntuColors.coolGrey
+                    anchors.centerIn: item
+                    radius:8
+                    border.color: "gray"
+                }
+
+                GridView {
+                    id:item
+                    anchors.top:parent.bottom
+                    anchors.topMargin:15
+                    clip:true
+                    width:iroomcolumn.width * 0.96
+                    height: iroomcolumn.height / 3.5
+                    cellHeight:item.height *0.08
+                    cellWidth:item.width
+
+
+
+                    model: ListModel {
+                        id:itemlist
+
+                        ListElement {
+                            enemy_name:"Potion"
+                        }
+                    }
+
+                    delegate :
+
+                        Item {
+
+                            height:item.cellHeight
+                            width:item.cellWidth
+
+                            Rectangle {
+                                x:item.cellWidth * 0.01
+                                width:item.cellWidth * 0.98
+                                height:item.cellHeight * 0.90
+                                color:"gray"
+                                border.color:"gray"
+
+                                Text {
+                                    x:parent.width * 0.04
+                                    text:enemy_name
+                                    font.pixelSize: parent.height * 0.6
+                                    color:"white"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width:parent.width * 0.90
+                                    clip:true
+                                }
+
+                                Rectangle {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.right:parent.right
+                                    anchors.rightMargin: 10
+                                    width:parent.height * 0.70
+                                    height:parent.height * 0.70
+                                    radius:width / 2
+                                    color:UbuntuColors.darkGrey
+
+                                }
+                            }
+
+                    }
+
+                }
+            }
+            }
+
+            Item {
+                width:parent.width
+                height:traps.height + traps.y
+
+            Text {
+                text:i18n.tr("Traps:")
+                color:"white"
+                x:4
+                font.pixelSize: iroomcolumn.height * 0.025
+
+                Rectangle {
+                    width:traps.width
+                    height:traps.height * 1.05
+                    color:UbuntuColors.coolGrey
+                    anchors.centerIn: traps
+                    radius:8
+                    border.color: "gray"
+                }
+
+                GridView {
+                    id:traps
+                    anchors.top:parent.bottom
+                    anchors.topMargin:15
+                    clip:true
+                    width:iroomcolumn.width * 0.96
+                    height: iroomcolumn.height / 3.5
+                    cellHeight:traps.height *0.08
+                    cellWidth:traps.width
+
+
+
+                    model: ListModel {
+                        id:traplist
+
+                        ListElement {
+                            name:"Trap!!!"
+                        }
+                    }
+
+                    delegate :
+
+                        Item {
+
+                            height:traps.cellHeight
+                            width:traps.cellWidth
+
+                            Rectangle {
+                                x:traps.cellWidth * 0.01
+                                width:traps.cellWidth * 0.98
+                                height:traps.cellHeight * 0.90
+                                color:"gray"
+                                border.color:"gray"
+
+                                Text {
+                                    x:parent.width * 0.04
+                                    text:name
+                                    font.pixelSize: parent.height * 0.6
+                                    color:"white"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width:parent.width * 0.90
+                                    clip:true
+                                }
+
+                                Rectangle {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.right:parent.right
+                                    anchors.rightMargin: 10
+                                    width:parent.height * 0.70
+                                    height:parent.height * 0.70
+                                    radius:width / 2
+                                    color:UbuntuColors.darkGrey
+
+                                }
+                            }
+
+                    }
+
+                }
+            }
             }
 
 

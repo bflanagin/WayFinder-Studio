@@ -109,6 +109,10 @@ MainView {
     property string mapdiscription: " "
     property string mapid: " "
 
+    //Codex info ///
+
+    property int clvl: 1
+
 
 
 
@@ -204,8 +208,221 @@ MyIOout {
 
             MouseArea {
                 anchors.fill:parent
-                onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip")
+               // onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip")
+                hoverEnabled: true
+                onEntered:codex.color = "darkGray"
+                onExited: codex.color = UbuntuColors.coolGrey
+
             }
+
+
+
+            Row {
+                id:codextype
+                anchors.right:parent.left
+
+                spacing: 5
+                width: parent.width * 5.4
+                height:parent.height
+                clip:true
+
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+                     clip:true
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.70
+                        height:parent.width * 0.70
+                        source:"graphics/map/armor.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                    MouseArea {
+                        anchors.fill:parent
+                        onClicked:Scripts.codex("armor"),the_codex.state = "Show"
+                        hoverEnabled: true
+                        onEntered:parent.color = "darkGray"
+                        onExited: parent.color = UbuntuColors.coolGrey
+
+                    }
+                }
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+                     clip:true
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.70
+                        height:parent.width * 0.70
+                        source:"graphics/map/weapons.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                    MouseArea {
+                        anchors.fill:parent
+                        onClicked:Scripts.codex("weapons"),the_codex.state = "Show"
+                        hoverEnabled: true
+                        onEntered:parent.color = "darkGray"
+                        onExited: parent.color = UbuntuColors.coolGrey
+
+                    }
+                }
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+                    clip:true
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.60
+                        height:parent.width * 0.60
+                        source:"graphics/map/enemy.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                    MouseArea {
+                        anchors.fill:parent
+                        onClicked:Scripts.codex("enemy"),the_codex.state = "Show"
+                        hoverEnabled: true
+                        onEntered:parent.color = "darkGray"
+                        onExited: parent.color = UbuntuColors.coolGrey
+
+                    }
+
+                }
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+                     clip:true
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.60
+                        height:parent.width * 0.60
+                        source:"graphics/map/items.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                }
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+                     clip:true
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.80
+                        height:parent.width * 0.80
+                        source:"graphics/map/magic.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                }
+
+
+
+            }
+
+            Column {
+                anchors.top:parent.bottom
+                width:parent.width
+                anchors.topMargin:10
+                height:parent.height * 4
+                spacing: 5
+                clip:true
+
+                Rectangle {
+                    id:reload
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.70
+                        height:parent.width * 0.70
+                        source:"/usr/share/icons/suru/actions/scalable/reload.svg"
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                     MouseArea {
+                         anchors.fill:parent
+                         onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip")
+                         hoverEnabled: true
+                        onEntered:reload.color = "darkGray"
+                         onExited: reload.color = UbuntuColors.coolGrey
+                     }
+
+                }
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.70
+                        height:parent.width * 0.70
+                        source:"/usr/share/icons/suru/actions/scalable/inbox.svg"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                }
+                Rectangle {
+                    //id:codex
+                    width:codex.width
+                    height:codex.width
+                    radius:width / 2
+
+                    border.color:"gray"
+                    color:UbuntuColors.coolGrey
+
+                    Image {
+                        anchors.centerIn: parent
+                        width:parent.width * 0.70
+                        height:parent.width * 0.70
+                        source:"/usr/share/icons/suru/actions/scalable/starred.svg"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                }
+
+
+            }
+
+
+
         }
 
         Item {
@@ -430,6 +647,7 @@ MyIOout {
         }
 
         Menu {
+            id:themenu
             anchors.top:pageHeader.bottom
             width:parent.width * 0.15
             anchors.left:parent.left
@@ -443,6 +661,19 @@ MyIOout {
             y:parent.height /5
             width:parent.width * 0.40
             height:parent.width * 0.30
+
+        }
+
+        Codex {
+            id:the_codex
+            //anchors.horizontalCenter: parent.horizontalCenter
+            x:themenu.width + parent.width * 0.04
+            y:parent.height * 0.10
+            width:parent.width * 0.70
+            height: parent.height * 0.80
+            state: "Hide"
+            dbsource: "none"
+
 
         }
 

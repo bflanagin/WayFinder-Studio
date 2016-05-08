@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-05 21:52-0500\n"
+"POT-Creation-Date: 2016-05-08 18:45-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,18 @@ msgstr ""
 
 #: ../app/Auth.qml:96
 msgid "Email Address"
+msgstr ""
+
+#: ../app/Codex.qml:81
+msgid "Codex"
+msgstr ""
+
+#: ../app/Codex.qml:99
+msgid "Sort: "
+msgstr ""
+
+#: ../app/Codex.qml:126 ../app/StoryPick.qml:76
+msgid "Search: "
 msgstr ""
 
 #: ../app/CommissionsPage.qml:11
@@ -116,7 +128,7 @@ msgstr ""
 msgid "Downloads: "
 msgstr ""
 
-#: ../app/Main.qml:161
+#: ../app/Main.qml:165
 #: /home/benjamin/Projects/build-WayFinder-Studio-Desktop-Default/po/WayFinder-Studio.desktop.in.h:1
 msgid "WayFinder-Studio"
 msgstr ""
@@ -204,11 +216,19 @@ msgstr ""
 msgid "NPCs:"
 msgstr ""
 
-#: ../app/MapPage.qml:974
+#: ../app/MapPage.qml:801
+msgid "Treasures and Drops:"
+msgstr ""
+
+#: ../app/MapPage.qml:882
+msgid "Traps:"
+msgstr ""
+
+#: ../app/MapPage.qml:1137
 msgid "New Location"
 msgstr ""
 
-#: ../app/MapPage.qml:974
+#: ../app/MapPage.qml:1137
 msgid "Locations"
 msgstr ""
 
@@ -266,8 +286,4 @@ msgstr ""
 
 #: ../app/StoryPage.qml:397
 msgid "Story so far:"
-msgstr ""
-
-#: ../app/StoryPick.qml:76
-msgid "Search: "
 msgstr ""
