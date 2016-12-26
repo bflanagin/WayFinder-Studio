@@ -11,9 +11,11 @@ Item {
     property string areaname: "No Name"
     property int zoomlevel: 1
     property string discription: ""
+
     clip:true
 
-    onZChanged: if(window_container.z == 1){Scripts.mapgrid(),Scripts.load_map(storyid+"_01")} else {}
+    onZChanged: if(window_container.z == 1){Scripts.mapgrid(),Scripts.enemygrid(),Scripts.itemgrid(),Scripts.load_map(storyid+"_01")} else {}
+
 
 
     Timer {
@@ -34,6 +36,14 @@ Item {
 
     }
 
+    Timer {
+        id:monstersize
+        running:false
+        repeat:true
+        interval:1
+        onTriggered:Scripts.monsterSize(enemy_size,current_highlight);
+    }
+
     Rectangle {
         color:UbuntuColors.warmGrey
         anchors.fill:mapflick
@@ -52,15 +62,15 @@ Item {
         clip:true
         //interactive:false
 
-
-
         Item {
             id:maparea
             width:parent.width * zoomlevel
             height:parent.width * zoomlevel
+            visible: true
+
         }
 
-        Item {
+       Item {
             id:enmaparea
             width:parent.width * zoomlevel
             height:parent.width * zoomlevel
@@ -68,20 +78,20 @@ Item {
 
         }
 
-        Item {
+      /*  Item {
             id:exmaparea
             width:parent.width * zoomlevel
             height:parent.width * zoomlevel
-            visible: true
+            visible: false
         }
 
         Item {
             id:imaparea
             width:parent.width * zoomlevel
             height:parent.width * zoomlevel
-            visible: true
+            visible: false
         }
-
+        */
 
 
 
@@ -307,7 +317,7 @@ Item {
 
                 MouseArea {
                     anchors.fill:parent
-                    onClicked:layers.state = "Hide",location_options.state = "Show",enemy_options.state ="Hide",items_options.state ="Hide",toolbox.state = "Show",currentlayer = 1;
+                    onClicked:layers.state = "Hide",location_options.state = "Show",enemy_options.state ="Hide",items_options.state ="Hide",enemybox.state = "Hide",toolbox.state = "Show",currentlayer = 1;
                 }
         }
 
@@ -328,7 +338,7 @@ Item {
 
                 MouseArea {
                     anchors.fill:parent
-                    onClicked:layers.state = "Hide",location_options.state ="Hide",enemy_options.state ="Show",items_options.state ="Hide",toolbox.state = "Hide",currentlayer = 2;
+                    onClicked:layers.state = "Hide",location_options.state ="Hide",enemy_options.state ="Show",items_options.state ="Hide",enemybox.state = "Show",toolbox.state = "Hide",currentlayer = 2;
                 }
         }
 
@@ -349,7 +359,7 @@ Item {
 
                 MouseArea {
                     anchors.fill:parent
-                    onClicked:layers.state = "Hide",location_options.state ="Hide",enemy_options.state ="Hide",items_options.state ="Show",toolbox.state = "Hide",currentlayer = 3;
+                    onClicked:layers.state = "Hide",location_options.state ="Hide",enemy_options.state ="Hide",items_options.state ="Show",enemybox.state = "Hide",toolbox.state = "Hide",currentlayer = 3;
                 }
         }
 
@@ -547,6 +557,67 @@ Item {
                 font.pixelSize: parent.width * 0.1
                 color:"White"
             }
+            Text {
+                text:"Current Encounter Level:"+el
+                font.pixelSize: parent.width * 0.08
+                color:"White"
+            }
+            Rectangle {
+                color:"grey"
+                height: 4
+                width: enroomcolumn.width * 0.98
+            }
+
+            Row {
+                width:parent.width
+                spacing:enroomcolumn.width * 0.05
+
+                Item {
+                    width:min.width + min.x
+                    height:min.height
+
+                    Text {
+                        text:"Min Lvl: "
+                        font.pixelSize: parent.width * 0.13
+                        color:"white"
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        TextField {
+                            id:min
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left:parent.right
+                            maximumLength: 3
+                            width:enroomcolumn.width * 0.22
+                        }
+                    }
+                }
+                Item {
+                    width:max.width + max.x
+                    height:max.height
+
+                    Text {
+                        text:"Max Lvl: "
+                        font.pixelSize: parent.width * 0.13
+                        color:"white"
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        TextField {
+                            id:max
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left:parent.right
+                            maximumLength: 3
+                            width:enroomcolumn.width * 0.22
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                color:"grey"
+                height: 4
+                width: enroomcolumn.width * 0.98
+            }
+
 
             Item {
                 width:parent.width
@@ -975,6 +1046,27 @@ Item {
     }
 
 
+    EnemyTools {
+        id:enemybox
+        state:"Hide"
+        x:parent.width * 0.50
+        y:parent.height * 0.60
+        width:parent.width * 0.28
+        height:parent.width * 0.18
+
+    }
+
+    ItemTools {
+        id:itembox
+        state:"Hide"
+        x:parent.width * 0.60
+        width:parent.width * 0.13
+        height:parent.width * 0.13
+
+    }
+
+
+
 Item {
     id:maps
     state:"Hide"
@@ -1145,7 +1237,11 @@ Item {
 
 }
 
+InfoPopUp {
+    id:infoview
 
+    state:"Hide"
+}
 
 
 

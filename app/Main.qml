@@ -96,7 +96,7 @@ MainView {
     property int exmapcreated: 0 //exit map
     property int imapcreated: 0 //item map
 
-    property int currentlayer: 0
+    property int currentlayer: 1
 
 
     property int quickfill: 0
@@ -108,6 +108,14 @@ MainView {
     property string maptitle: " "
     property string mapdiscription: " "
     property string mapid: " "
+
+    property int current_enemy:0
+    property int current_highlight:0
+    property int enemy_size:1
+
+    property int el:0
+
+
 
     //Codex info ///
 
@@ -189,8 +197,8 @@ MyIOout {
 
         Rectangle {
             id:codex
-            width:parent.width * 0.05
-            height:parent.width * 0.05
+            width:parent.width * 0.04
+            height:parent.width * 0.04
             radius:width / 2
             anchors.top:parent.top
             anchors.right:parent.right
@@ -208,7 +216,7 @@ MyIOout {
 
             MouseArea {
                 anchors.fill:parent
-               // onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip")
+                onClicked:if(codextype.state == "Hide") {codextype.state = "Show",codexopts.state = "Show"} else {codextype.state = "Hide",codexopts.state = "Hide"}
                 hoverEnabled: true
                 onEntered:codex.color = "darkGray"
                 onExited: codex.color = UbuntuColors.coolGrey
@@ -222,9 +230,67 @@ MyIOout {
                 anchors.right:parent.left
 
                 spacing: 5
-                width: parent.width * 5.4
+               // width: parent.width * 5.4
                 height:parent.height
                 clip:true
+
+                states: [
+                    State {
+                        name:"Show"
+                        PropertyChanges {
+                            target: codextype
+                            width: parent.width * 5.4
+                            opacity:1
+
+                        }
+                    },
+
+                    State {
+                        name:"Hide"
+                        PropertyChanges {
+                            target: codextype
+                            width:0
+                            opacity:0
+
+                        }
+                    }
+
+
+                ]
+
+                 transitions: [
+                    Transition {
+                        from: "Hide"
+                        to: "Show"
+
+                        NumberAnimation {
+                            target: codextype
+                            property: "width"
+                            duration: 100
+                            easing.type: Easing.InOutQuad
+                        }
+
+                    },
+
+                    Transition {
+                        from: "Show"
+                        to: "Hide"
+
+                        NumberAnimation {
+                            target: codextype
+                            property: "width"
+                            duration: 100
+                            easing.type: Easing.InOutQuad
+                        }
+
+                    }
+
+
+                ]
+
+                state:"Hide"
+
+
 
                 Rectangle {
                     //id:codex
@@ -245,7 +311,7 @@ MyIOout {
                     }
                     MouseArea {
                         anchors.fill:parent
-                        onClicked:Scripts.codex("armor"),the_codex.state = "Show"
+                        onClicked:the_codex.dbsource = "armor",the_codex.state = "Show"
                         hoverEnabled: true
                         onEntered:parent.color = "darkGray"
                         onExited: parent.color = UbuntuColors.coolGrey
@@ -272,7 +338,7 @@ MyIOout {
                     }
                     MouseArea {
                         anchors.fill:parent
-                        onClicked:Scripts.codex("weapons"),the_codex.state = "Show"
+                        onClicked:the_codex.dbsource = "weapons",the_codex.state = "Show"
                         hoverEnabled: true
                         onEntered:parent.color = "darkGray"
                         onExited: parent.color = UbuntuColors.coolGrey
@@ -298,7 +364,7 @@ MyIOout {
                     }
                     MouseArea {
                         anchors.fill:parent
-                        onClicked:Scripts.codex("enemy"),the_codex.state = "Show"
+                        onClicked:the_codex.dbsource = "enemy",the_codex.state = "Show"
                         hoverEnabled: true
                         onEntered:parent.color = "darkGray"
                         onExited: parent.color = UbuntuColors.coolGrey
@@ -323,6 +389,14 @@ MyIOout {
                         source:"graphics/map/items.png"
                         fillMode: Image.PreserveAspectFit
                     }
+                    MouseArea {
+                        anchors.fill:parent
+                        onClicked:the_codex.dbsource = "equip",the_codex.state = "Show"
+                        hoverEnabled: true
+                        onEntered:parent.color = "darkGray"
+                        onExited: parent.color = UbuntuColors.coolGrey
+
+                    }
 
                 }
                 Rectangle {
@@ -343,6 +417,16 @@ MyIOout {
                         fillMode: Image.PreserveAspectFit
                     }
 
+
+                    MouseArea {
+                        anchors.fill:parent
+                        onClicked:Scripts.codex("magic",""),the_codex.state = "Show"
+                        hoverEnabled: true
+                        onEntered:parent.color = "darkGray"
+                        onExited: parent.color = UbuntuColors.coolGrey
+
+                    }
+
                 }
 
 
@@ -350,12 +434,73 @@ MyIOout {
             }
 
             Column {
+                id:codexopts
                 anchors.top:parent.bottom
                 width:parent.width
                 anchors.topMargin:10
-                height:parent.height * 4
+               // height:parent.height * 4
                 spacing: 5
                 clip:true
+
+
+                states: [
+                    State {
+                        name:"Show"
+                        PropertyChanges {
+                            target: codexopts
+                            height:parent.height * 4
+                            opacity:1
+
+                        }
+                    },
+
+                    State {
+                        name:"Hide"
+                        PropertyChanges {
+                            target: codexopts
+                            height:0
+                            opacity:0
+
+                        }
+                    }
+
+
+                ]
+
+                 transitions: [
+                    Transition {
+                        from: "Hide"
+                        to: "Show"
+
+                        NumberAnimation {
+                            target: codexopts
+                            property: "height"
+                            duration: 200
+                            easing.type: Easing.InOutQuad
+                        }
+
+                    },
+
+                    Transition {
+                        from: "Show"
+                        to: "Hide"
+
+                        NumberAnimation {
+                            target: codexopts
+                            property: "height"
+                            duration: 200
+                            easing.type: Easing.InOutQuad
+                        }
+
+                    }
+
+
+                ]
+
+                state:"Hide"
+
+
+
 
                 Rectangle {
                     id:reload
@@ -376,7 +521,7 @@ MyIOout {
 
                      MouseArea {
                          anchors.fill:parent
-                         onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip")
+                         onClicked:OpenSeed.codex("armor"),OpenSeed.codex("equip"),OpenSeed.codex("weapons")
                          hoverEnabled: true
                         onEntered:reload.color = "darkGray"
                          onExited: reload.color = UbuntuColors.coolGrey
@@ -636,6 +781,24 @@ MyIOout {
             }
         }
 
+        Pages {
+            id:storySummary
+            width:parent.width * 0.95
+            height:parent.height * 0.94
+            anchors.centerIn: parent
+            title:"Summary"
+            state:"pos3"
+            tab:3
+            z:if(selectedtab == 3) {2} else {0}
+
+            SummaryPage {
+                z:if(selectedtab == 3) {1} else {0}
+                width:parent.width * 0.99
+                height:parent.height * 0.95
+                anchors.centerIn: parent
+            }
+        }
+
 
         }
 
@@ -679,5 +842,24 @@ MyIOout {
 
 
     }
+
+
+    ArtistPreview {
+        id:artistfinder
+        x:(parent.width - width) * 0.50
+        y:(parent.height - height) * 0.50
+
+        height:parent.height * 0.90
+        width:parent.width * 0.80
+
+        state:"Hide"
+
+    }
+
+
+
+
+    //nothing below this line//
 }
+
 

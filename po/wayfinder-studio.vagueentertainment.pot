@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 18:45-0500\n"
+"POT-Creation-Date: 2016-10-26 13:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,27 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ../app/ArtRequestDialog.qml:73
+msgid "Upload your own"
+msgstr ""
+
+#: ../app/ArtRequestDialog.qml:96
+msgid "Request"
+msgstr ""
+
+#: ../app/ArtistPreview.qml:81 ../app/ArtistStore.qml:81
+msgid "Artists"
+msgstr ""
+
+#: ../app/ArtistPreview.qml:128 ../app/ArtistStore.qml:128 ../app/Codex.qml:158
+#: ../app/EnemyTools.qml:177 ../app/StoryPick.qml:76
+msgid "Search: "
+msgstr ""
+
+#: ../app/ArtistPreview.qml:347
+msgid "Click to Request"
+msgstr ""
 
 #: ../app/Auth.qml:53
 msgid "OpenSeed Connect"
@@ -36,16 +57,12 @@ msgstr ""
 msgid "Email Address"
 msgstr ""
 
-#: ../app/Codex.qml:81
+#: ../app/Codex.qml:83
 msgid "Codex"
 msgstr ""
 
-#: ../app/Codex.qml:99
+#: ../app/Codex.qml:129
 msgid "Sort: "
-msgstr ""
-
-#: ../app/Codex.qml:126 ../app/StoryPick.qml:76
-msgid "Search: "
 msgstr ""
 
 #: ../app/CommissionsPage.qml:11
@@ -116,6 +133,14 @@ msgstr ""
 msgid "Sample Work"
 msgstr ""
 
+#: ../app/EnemyTools.qml:99
+msgid "Enemy"
+msgstr ""
+
+#: ../app/EnemyTools.qml:99
+msgid "Friendly"
+msgstr ""
+
 #: ../app/Footer.qml:43
 msgid "Views: "
 msgstr ""
@@ -128,107 +153,107 @@ msgstr ""
 msgid "Downloads: "
 msgstr ""
 
-#: ../app/Main.qml:165
-#: /home/benjamin/Projects/build-WayFinder-Studio-Desktop-Default/po/WayFinder-Studio.desktop.in.h:1
+#: ../app/Main.qml:173
+#: /home/benjamin/Projects/build-WayFinder-Studio-UbuntuSDK_for_desktop_GCC_amd64_ubuntu_sdk_16_04-Default/po/WayFinder-Studio.desktop.in.h:1
 msgid "WayFinder-Studio"
 msgstr ""
 
-#: ../app/MapPage.qml:108
+#: ../app/MapPage.qml:118
 msgid "Map - "
 msgstr ""
 
-#: ../app/MapPage.qml:138
+#: ../app/MapPage.qml:148
 msgid "Living"
 msgstr ""
 
-#: ../app/MapPage.qml:139
+#: ../app/MapPage.qml:149
 msgid "Soil"
 msgstr ""
 
-#: ../app/MapPage.qml:140
+#: ../app/MapPage.qml:150
 msgid "Sand"
 msgstr ""
 
-#: ../app/MapPage.qml:141
+#: ../app/MapPage.qml:151
 msgid "Ice"
 msgstr ""
 
-#: ../app/MapPage.qml:142
+#: ../app/MapPage.qml:152
 msgid "Rock"
 msgstr ""
 
-#: ../app/MapPage.qml:143
+#: ../app/MapPage.qml:153
 msgid "No Base Texture"
 msgstr ""
 
-#: ../app/MapPage.qml:155
+#: ../app/MapPage.qml:165
 msgid "Standard Terrain"
 msgstr ""
 
-#: ../app/MapPage.qml:156
+#: ../app/MapPage.qml:166
 msgid "Ruff Terrain"
 msgstr ""
 
-#: ../app/MapPage.qml:157
+#: ../app/MapPage.qml:167
 msgid "Shallow Water"
 msgstr ""
 
-#: ../app/MapPage.qml:158
+#: ../app/MapPage.qml:168
 msgid "Deep Water"
 msgstr ""
 
-#: ../app/MapPage.qml:159
+#: ../app/MapPage.qml:169
 msgid "Tainted Water"
 msgstr ""
 
-#: ../app/MapPage.qml:160
+#: ../app/MapPage.qml:170
 msgid "Deadly Fluid"
 msgstr ""
 
-#: ../app/MapPage.qml:161
+#: ../app/MapPage.qml:171
 msgid "No Terrain"
 msgstr ""
 
-#: ../app/MapPage.qml:172 ../app/MapPage.qml:173 ../app/MapPage.qml:174
-#: ../app/MapPage.qml:175 ../app/MapPage.qml:176 ../app/MapPage.qml:177
-#: ../app/MapPage.qml:178 ../app/MapPage.qml:179 ../app/MapPage.qml:180
-#: ../app/MapPage.qml:181 ../app/MapPage.qml:182 ../app/MapPage.qml:183
+#: ../app/MapPage.qml:182 ../app/MapPage.qml:183 ../app/MapPage.qml:184
+#: ../app/MapPage.qml:185 ../app/MapPage.qml:186 ../app/MapPage.qml:187
+#: ../app/MapPage.qml:188 ../app/MapPage.qml:189 ../app/MapPage.qml:190
+#: ../app/MapPage.qml:191 ../app/MapPage.qml:192 ../app/MapPage.qml:193
 msgid "Wall"
 msgstr ""
 
-#: ../app/MapPage.qml:184
+#: ../app/MapPage.qml:194
 msgid "No Wall"
 msgstr ""
 
-#: ../app/MapPage.qml:434
+#: ../app/MapPage.qml:444
 msgid "Location:"
 msgstr ""
 
-#: ../app/MapPage.qml:453
+#: ../app/MapPage.qml:463
 msgid "Discription:"
 msgstr ""
 
-#: ../app/MapPage.qml:556
+#: ../app/MapPage.qml:627
 msgid "Combatants:"
 msgstr ""
 
-#: ../app/MapPage.qml:637
+#: ../app/MapPage.qml:708
 msgid "NPCs:"
 msgstr ""
 
-#: ../app/MapPage.qml:801
+#: ../app/MapPage.qml:872
 msgid "Treasures and Drops:"
 msgstr ""
 
-#: ../app/MapPage.qml:882
+#: ../app/MapPage.qml:953
 msgid "Traps:"
 msgstr ""
 
-#: ../app/MapPage.qml:1137
+#: ../app/MapPage.qml:1229
 msgid "New Location"
 msgstr ""
 
-#: ../app/MapPage.qml:1137
+#: ../app/MapPage.qml:1229
 msgid "Locations"
 msgstr ""
 
@@ -281,7 +306,7 @@ msgid "About:"
 msgstr ""
 
 #: ../app/StoryPage.qml:373
-msgid "Summary:"
+msgid "Pitch:"
 msgstr ""
 
 #: ../app/StoryPage.qml:397

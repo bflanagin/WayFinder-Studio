@@ -84,7 +84,7 @@ function heartbeat() {
         }
             } else {
                     heart = "Offline";
-                    updateinterval = 2000;
+                    updateinterval = 2000 + updateinterval;
 
         }
     }
@@ -444,11 +444,71 @@ function codex(base) {
 
 
 
-                    var testStr = "SELECT  *  FROM ARMOR WHERE name= '"+name+"'";
+                    var testStr = "SELECT  *  FROM EQUIP WHERE name= '"+name+"'";
 
                         db.transaction(function(tx) {
 
                             tx.executeSql('CREATE TABLE IF NOT EXISTS EQUIP (name TEXT,cost TEXT,Weight INT(11),Maxium INT,discription TEXT,type INT(11))');
+
+
+                                        var test = tx.executeSql(testStr);
+
+
+                                            if(test.rows.length == 0) {
+
+                                                tx.executeSql(userStr, data);
+                                            } else {
+
+                                            //tx.executeSql(updateUser);
+                                                }
+
+
+
+                        });
+
+
+                        }
+
+                }
+
+
+                if(base == "weapons") {
+
+                    var db = Sql.LocalStorage.openDatabaseSync("Codex", "1.0", "Local Codex", 1);
+                    var userStr = "INSERT INTO WEAPONS VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+
+                        var items = sitereturn.split("begin::");
+
+                        for(var itemnum = 1;itemnum < items.length;itemnum++) {
+                            var name = items[itemnum].split(";&;")[0];
+                            var dmgS = items[itemnum].split(";&;")[1];
+                            var dmgM = items[itemnum].split(";&;")[2];
+                            var dmgL = items[itemnum].split(";&;")[3];
+
+                            var Crit = items[itemnum].split(";&;")[4];
+                            var Range =  items[itemnum].split(";&;")[5];
+                            var Weight = items[itemnum].split(";&;")[6];
+
+                            var dtype = items[itemnum].split(";&;")[7];
+                            var Special = items[itemnum].split(";&;")[8];
+                            var cost = items[itemnum].split(";&;")[9];
+                            var weapontype = items[itemnum].split(";&;")[10];
+                            var discription = items[itemnum].split(";&;")[11];
+                            var mtype = items[itemnum].split(";&;")[12];
+                            var stype = items[itemnum].split(";&;")[13];
+
+
+                            var data =[name.replace(/\'/g,"&#x27;"),dmgS,dmgM,dmgL,Crit,Range,Weight,dtype,Special,cost,weapontype,discription.replace(/\'/g,"&#x27;"),mtype,stype];
+
+
+
+
+                    var testStr = "SELECT  *  FROM WEAPONS WHERE name= '"+name+"'";
+
+                        db.transaction(function(tx) {
+
+                            tx.executeSql('CREATE TABLE IF NOT EXISTS WEAPONS (name TEXT,dmgS TEXT,dmgM TEXT,dmgL TEXT,Crit INT(11),Range INT(11),Weight INT(11),dtype TEXT,Special TEXT,cost TEXT,WeaponType TEXT,discription TEXT,mtype INT(11),stype INT(11))');
 
 
                                         var test = tx.executeSql(testStr);

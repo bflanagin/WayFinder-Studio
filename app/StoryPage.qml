@@ -370,7 +370,7 @@ Item {
                 height:summary.height+summary.y
 
             Text {
-                text:i18n.tr("Summary:")
+                text:i18n.tr("Pitch:")
                 color:"white"
                 x:storycolumn.width * 0.01
                 font.pixelSize: storycolumn.height * 0.03

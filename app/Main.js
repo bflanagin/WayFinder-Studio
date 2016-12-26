@@ -1,17 +1,25 @@
 var component;
+var ecomponent;
+var icomponent;
+var excomponent;
 var tilenum = 0;
 
 var  maxColumn = 45;
 var maxRow = 45;
 var  maxIndex = maxRow * maxColumn;
 
-var tiles = new Array(maxIndex);
 
+//Tile Arrays //
+
+var tiles = new Array(maxIndex);
+var etiles = new Array(maxIndex);
+var itiles = new Array(maxIndex);
+var extiles = new Array(maxIndex);
 
 
 
 function loaddb() {
-    console.log("running Load DB");
+   // console.log("running Load DB");
 
 
 
@@ -28,7 +36,7 @@ function loaddb() {
 
              var pull =  tx.executeSql(testStr);
 
-            console.log(pull.rows.length);
+          //  console.log(pull.rows.length);
 
             if(pull.rows.length == 0) {
                 os_connect.state = "Show";
@@ -64,10 +72,10 @@ function artuserdb(go) {
 
             if(go == "load") {
              var pull =  tx.executeSql(testStr);
-                console.log("running Art DB");
+                //console.log("running Art DB");
 
             if(pull.rows.length == 0) {
-                console.log("No users")
+              //  console.log("No users")
 
                 storename = "";
                 artistname = "";
@@ -431,6 +439,53 @@ function save_story() {
 }
 
 
+function build_summary() {
+
+    summary.clear();
+
+
+
+    var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
+
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS STORY (id TEXT,storyid TEXT,title TEXT,author TEXT, contact TEXT ,story TEXT ,summary TEXT,characters TEXT,publish INT,donations INT,paypal TEXT,patreon TEXT,coinbase TEXT,date TEXT,cover TEXT,coverdata BLOB)');
+
+        var testStr = "SELECT  *  FROM STORY WHERE storyid='"+storyid+"'";
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+            summary.append({
+                               title:pull.rows.item(itemnum).title,
+                               textblock:pull.rows.item(itemnum).story,
+                               LoR:itemnum
+
+                            });
+
+
+        var mapStrs = "SELECT  *  FROM MAPS WHERE storyid='"+storyid+"'";
+        var pull2 = tx.executeSql(mapStrs);
+
+         while (itemnum < pull2.rows.length) {
+            summary.append({
+                               title:pull2.rows.item(itemnum).title,
+                               textblock:pull2.rows.item(itemnum).discription,
+                               LoR:itemnum+1
+
+                           });
+
+             itemnum = itemnum + 1;
+         }
+
+            });
+
+
+
+
+
+}
+
 
 
 
@@ -448,7 +503,7 @@ function mapgrid() {
    for (var column = 0; column < maxColumn; column++) {
       for (var row = 0; row < maxRow; row++) {
 
-           createBlock(column, row, tilenum,maparea);
+           createBlock(column, row, tilenum,maparea,"base");
             tilenum= tilenum +1;
        }
    }
@@ -472,7 +527,7 @@ function enemygrid() {
    for (var column = 0; column < maxColumn; column++) {
       for (var row = 0; row < maxRow; row++) {
 
-           createBlock(column, row, tilenum,enmaparea);
+           create_E_Block(column, row, tilenum,enmaparea,"enemy");
             tilenum= tilenum +1;
        }
    }
@@ -496,7 +551,7 @@ function itemgrid() {
    for (var column = 0; column < maxColumn; column++) {
       for (var row = 0; row < maxRow; row++) {
 
-           createBlock(column, row, tilenum,imaparea);
+           createBlock(column, row, tilenum,imaparea,"items");
             tilenum= tilenum +1;
        }
    }
@@ -520,7 +575,7 @@ function exitgrid() {
    for (var column = 0; column < maxColumn; column++) {
       for (var row = 0; row < maxRow; row++) {
 
-           createBlock(column, row, tilenum,exmaparea);
+           createBlock(column, row, tilenum,exmaparea,"exit");
             tilenum= tilenum +1;
        }
    }
@@ -531,14 +586,11 @@ function exitgrid() {
 }
 
 
-function createBlock(column, row, num,area) {
+function createBlock(column,row, num,area,type) {
 
     if (component == null)
-        component = Qt.createComponent("./Tile.qml");
+       component = Qt.createComponent("./Tile.qml");
 
-    // Note that if tile.qml was not a local file, component.status would be
-    // Loading and we should wait for the component's statusChanged() signal to
-    // know when the file is downloaded and ready before calling createObject().
 
     if (component.status == Component.Ready) {
         var dynamicObject = component.createObject(area);
@@ -578,17 +630,71 @@ function createBlock(column, row, num,area) {
     return true;
 }
 
+function create_E_Block(column,row, num,area,type) {
+
+    if (ecomponent == null)
+
+       ecomponent = Qt.createComponent("./E-Tile.qml");
+
+
+    if (ecomponent.status == Component.Ready) {
+        var dynamicObject = ecomponent.createObject(area);
+        if (dynamicObject == null) {
+            console.log("error creating block");
+            console.log(ecomponent.errorString());
+            return false;
+        }
+        var blockSizex = area.width /50.7;
+        var blockSizey = area.width /50.7;
+
+
+        dynamicObject.x =(column * blockSizex);
+        dynamicObject.y =(row * blockSizey);
+
+        dynamicObject.width = blockSizex * 1.0;
+        dynamicObject.height = blockSizey *1.0;
+
+        dynamicObject.num = num;
+        dynamicObject.row = row;
+        dynamicObject.column = column;
+        dynamicObject.cw_tile = 0;
+        dynamicObject.cf_tile = 0;
+        dynamicObject.base_tile = 0;
+        dynamicObject.size = 0;
+        dynamicObject.anchor = 1;
+
+
+       etiles[num] = dynamicObject;
+
+
+
+    } else {
+        console.log("error loading block component");
+        console.log(ecomponent.errorString());
+        return false;
+    }
+
+    return true;
+}
+
+
+
 function save_map() {
+    //console.log("Running Auto Save");
     var num = 0;
     var mapdata;
+    var enemymap;
+
     ///var mapdata =num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
     while (num < maxIndex) {
+
        mapdata = mapdata+num+";"+tiles[num].cf_tile+";"+tiles[num].cw_tile+";"+tiles[num].base_tile+",";
+        enemymap = enemymap+num+";"+etiles[num].cf_tile+";"+etiles[num].cw_tile+";"+etiles[num].base_tile+";"+etiles[num].size+";"+etiles[num].anchor+",";
         num = num + 1;
     }
 
     var db = Sql.LocalStorage.openDatabaseSync("Adventures", "1.0", "Story", 1);
-    var enemymap;
+
     var charactermap;
     var itemmap;
     var exitmap;
@@ -614,14 +720,14 @@ function save_map() {
 
              mapid = storyid+"_"+pull.rows.length+mapnum;
 
-                //console.log("Creating new map "+mapid);
+                console.log("Creating new map "+mapid);
             var insert = "INSERT INTO MAPS VALUES(?,?,?,?,?,?,?,?,?,?)";
             data = [id,storyid,mapid,maptitle.replace(/\'/g,"&#x27;"),mapdiscription.replace(/\'/g,"&#x27;"),mapdata,enemymap,itemmap,charactermap,exitmap];
 
               tx.executeSql(insert,data);
 
          } else {
-                //console.log("Updating map "+mapid);
+                console.log("Updating map "+mapid);
             var updateMap = "UPDATE MAPS SET title='"+maptitle.replace(/\'/g,"&#x27;")+"',discription='"+mapdiscription.replace(/\'/g,"&#x27;")+"',mapdata='"+mapdata+"',enemymap='"+enemymap+"',charactermap='"+charactermap+"',itemmap='"+itemmap+"',exitmap='"+exitmap+"' WHERE mapid='"+mapid+"'";
            tx.executeSql(updateMap);
 
@@ -653,12 +759,16 @@ function load_map(map) {
         var itemnum = 0;
 
         if(pull.rows.length == 1) {
+          //  console.log("Loading Map for location "+maptitle);
 
             maptitle = pull.rows.item(0).title.replace(/\&#x27;/g,"'");
             mapdiscription = pull.rows.item(0).discription.replace(/\&#x27;/g,"'");
 
             var griddata = pull.rows.item(0).mapdata;
+            var enemydata = pull.rows.item(0).enemymap;
+
             fillmap(griddata,"base");
+            fillmap(enemydata,"enemy");
 
 
         } else {
@@ -678,15 +788,43 @@ function fillmap(griddata,layer) {
     var num = 1;
 
 
-
-    while(num < maxIndex) {
+  switch (layer) {
+    case "base":while(num < maxIndex) {
         tiles[num].cf_tile = placement[num].split(";")[1];
         tiles[num].cw_tile =placement[num].split(";")[2];
         tiles[num].base_tile = placement[num].split(";")[3];
 
 
         num = num + 1;
-    }
+    }break;
+    case "enemy":while(num < maxIndex) {
+        etiles[num].cf_tile = placement[num].split(";")[1];
+        etiles[num].cw_tile =placement[num].split(";")[2];
+        etiles[num].base_tile = placement[num].split(";")[3];
+        etiles[num].size = placement[num].split(";")[4];
+        etiles[num].anchor = placement[num].split(";")[5];
+
+
+        num = num + 1;
+    }break;
+    case "items":while(num < maxIndex) {
+        itiles[num].cf_tile = placement[num].split(";")[1];
+        itiles[num].cw_tile =placement[num].split(";")[2];
+        itiles[num].base_tile = placement[num].split(";")[3];
+
+
+        num = num + 1;
+    }break;
+    case "exits":while(num < maxIndex) {
+        extiles[num].cf_tile = placement[num].split(";")[1];
+        extiles[num].cw_tile =placement[num].split(";")[2];
+        extiles[num].base_tile = placement[num].split(";")[3];
+
+
+        num = num + 1;
+    }break;
+
+  }
 
 }
 
@@ -702,9 +840,20 @@ function clearmap() {
 
 
     while (num < maxIndex) {
+
        tiles[num].cw_tile = 0;
         tiles[num].cf_tile = 0;
         tiles[num].base_tile = 0;
+
+        //etiles[num].cw_tile = 0;
+        // etiles[num].cf_tile = 0;
+        // etiles[num].base_tile = 0;
+
+       // itiles[num].cw_tile = 0;
+        // itiles[num].cf_tile = 0;
+        // itiles[num].base_tile = 0;
+
+
         num = num + 1;
     }
 
@@ -818,13 +967,141 @@ function autowall() {
     }
 }
 
+function monsterSize(size,num) {
+
+        clear_highlight();
+    switch(size) {
+    case 1: etiles[num].base_tile = 1;break;
+    case 2: etiles[num].base_tile = 1;etiles[num+1].base_tile = 1;etiles[num+maxColumn].base_tile = 1;etiles[num+maxColumn+1].base_tile = 1;break;
+    case 3: etiles[num].base_tile = 1;etiles[num+1].base_tile = 1;etiles[num+maxColumn].base_tile = 1;etiles[num+maxColumn+1].base_tile = 1;
+            etiles[num+2].base_tile = 1;etiles[num+maxColumn*2].base_tile = 1;etiles[num+maxColumn+2].base_tile = 1;
+            etiles[num+maxColumn*2+1].base_tile = 1;etiles[num+maxColumn*2+2].base_tile = 1;break;
+    case 4: etiles[num].base_tile = 1;etiles[num+1].base_tile = 1;etiles[num+maxColumn].base_tile = 1;etiles[num+maxColumn+1].base_tile = 1;
+            etiles[num+2].base_tile = 1;etiles[num+maxColumn*2].base_tile = 1;etiles[num+maxColumn+2].base_tile = 1;
+            etiles[num+maxColumn*2+1].base_tile = 1;etiles[num+maxColumn*2+2].base_tile = 1;etiles[num+maxColumn*2+3].base_tile = 1;
+            etiles[num+3].base_tile = 1;etiles[num+maxColumn*3].base_tile = 1;etiles[num+maxColumn+3].base_tile = 1;
+            etiles[num+maxColumn*3+2].base_tile = 1;etiles[num+maxColumn*3+3].base_tile = 1;etiles[num+maxColumn*3+1].base_tile = 1;
+
+                break;
+
+    case 6: etiles[num].base_tile = 1;for(var down=0;down < 6;down++) {
+                                            for(var across = 0;across < 6;across++) {
+                                                etiles[num+down+maxColumn*across].base_tile = 1;}
+                                        }break;
+
+    }
+
+}
+
+function clear_highlight() {
+    var num = 0;
+    while (num < maxIndex) {
+        etiles[num].base_tile = 0;
+        num = num + 1;
+    }
+}
+
+
 // codex functions
 
-function codex(type) {
-    console.log(type);
+function codex(type,search) {
+
+    codexlist.clear();
+
+    var db = Sql.LocalStorage.openDatabaseSync("Codex", "1.0", "Story", 1);
+    var testStr;
+
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS EQUIP (name TEXT,cost TEXT,Weight INT(11),Maxium INT,discription TEXT,type INT(11))');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ARMOR (name TEXT,dmgS TEXT,dmgM TEXT,dmgL TEXT,AB INT(11),Dex INT(11),ACP INT(11),ASFC DOUBLE(11,2),Crit INT(11),Weight INT(11),Speed30P TEXT,Speed20P TEXT,dtype TEXT,Special TEXT,cost TEXT,discription TEXT,type INT(11))');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS WEAPONS (name TEXT,dmgS TEXT,dmgM TEXT,dmgL TEXT,Crit INT(11),Range INT(11),Weight INT(11),dtype TEXT,Special TEXT,cost TEXT,WeaponType TEXT,discription TEXT,mtype INT(11),stype INT(11))');
+
+
+            switch(type) {
+
+            case "equip":testStr = "SELECT  *  FROM EQUIP WHERE 1";lvlsneeded = false;break;
+            case  "armor":testStr= "SELECT  *  FROM ARMOR WHERE 1";lvlsneeded = false;break;
+            case  "weapons":testStr= "SELECT  *  FROM WEAPONS WHERE 1";lvlsneeded = false;break;
+            default:break;
+         }
+
+        var pull =  tx.executeSql(testStr);
+        var itemnum = 0;
+
+        while (itemnum < pull.rows.length) {
+
+            var thetype = " ";
+
+            if(pull.rows.item(itemnum).type != undefined) {
+            thetype = pull.rows.item(itemnum).type
+                    }
+
+                codexlist.append ({
+
+                                    name:pull.rows.item(itemnum).name,
+                                    cdiscription:pull.rows.item(itemnum).discription,
+                                    cindex:itemnum,
+
+                                    itemtype:thetype
+                                });
+
+
+
+            itemnum = itemnum + 1;
+        }
+
+        });
+
+
+
 
 }
 
 function codex_article(type,thingid) {
+
+
+    var db = Sql.LocalStorage.openDatabaseSync("Codex", "1.0", "Story", 1);
+
+     var testStr;
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS EQUIP (name TEXT,cost TEXT,Weight INT(11),Maxium INT,discription TEXT,type INT(11))');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS ARMOR (name TEXT,dmgS TEXT,dmgM TEXT,dmgL TEXT,AB INT(11),Dex INT(11),ACP INT(11),ASFC DOUBLE(11,2),Crit INT(11),Weight INT(11),Speed30P TEXT,Speed20P TEXT,dtype TEXT,Special TEXT,cost TEXT,discription TEXT,type INT(11))');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS WEAPONS (name TEXT,dmgS TEXT,dmgM TEXT,dmgL TEXT,Crit INT(11),Range INT(11),Weight INT(11),dtype TEXT,Special TEXT,cost TEXT,WeaponType TEXT,discription TEXT,mtype INT(11),stype INT(11))');
+
+
+        switch(type) {
+        case "equip":testStr = "SELECT  *  FROM EQUIP WHERE 1";break;
+        case "armor":testStr = "SELECT  *  FROM ARMOR WHERE 1";break;
+        case "weapons":testStr = "SELECT  *  FROM WEAPONS WHERE 1";break;
+        case "spells":testStr = "SELECT  *  FROM SPELLS WHERE 1";break;
+        default:break;
+        }
+
+        var pull =  tx.executeSql(testStr);
+
+        item_discription ="<b>Discription:</b>\n"+pull.rows.item(thingid).discription
+        switch(type) {
+        case "equip":item_stats = "Cost: "+pull.rows.item(thingid).cost+"\n\nWeight: "+pull.rows.item(thingid).Weight;break;
+        case "armor":item_stats = "Cost: "+pull.rows.item(thingid).cost+"\n\nWeight: "+pull.rows.item(thingid).Weight+" | Speed Penalty: "+pull.rows.item(thingid).Speed30P+"\n"+
+                     "\nArmor Bonus:"+pull.rows.item(thingid).AB+" | Dex Penatiy: "+pull.rows.item(thingid).Dex+" | AC Penalty: "
+                     +pull.rows.item(thingid).ACP+" | Arcane Spell faliure Chance: "+pull.rows.item(thingid).ASFC+"%\n"
+
+
+            ;break;
+        case "weapons":item_stats = "Cost: "+pull.rows.item(thingid).cost+"\n\nWeight: "+pull.rows.item(thingid).Weight+" | Range: "+pull.rows.item(thingid).Range+"\n"+
+                     "\nWeapon Type:"+pull.rows.item(thingid).weapontype
+
+
+            ;break;
+        case "spells":item_stats = "Cost: "+pull.rows.item(thingid).cost+"\n\nWeight: "+pull.rows.item(thingid).Weight+" | Speed Penalty: "+pull.rows.item(thingid).Speed30P+"\n"+
+                     "\nArmor Bonus:"+pull.rows.item(thingid).AB+" | Dex Penatiy: "+pull.rows.item(thingid).Dex+" | AC Penalty: "
+                     +pull.rows.item(thingid).ACP+" | Arcane Spell faliure Chance: "+pull.rows.item(thingid).ASFC+"%\n"
+
+
+            ;break;
+        }
+
+        });
+
 
 }

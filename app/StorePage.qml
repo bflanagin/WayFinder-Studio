@@ -263,7 +263,7 @@ Item {
 
             width:parent.width * 0.20
             height:parent.width * 0.20
-            source:if(avatarimg == "") {"graphics/newImageAdd.png"} else {avatarimg}
+            source:if(avatarimg == " ") {"graphics/newImageAdd.png"} else {avatarimg}
 
 
 
@@ -290,7 +290,7 @@ Item {
         anchors.rightMargin:20
         width:parent.width * 0.70
         height:parent.height * 0.85
-        source:if(sampleimg == "") {"graphics/newImageAdd.png"} else {sampleimg}
+        source:if(sampleimg == " ") {"graphics/newImageAdd.png"} else {sampleimg}
         fillMode:if(source =="graphics/newImageAdd.png") {Image.PreserveAspectFit} else {Image.PreserveAspectCrop}
 
         MouseArea {

@@ -26,11 +26,11 @@ Rectangle {
         case 3:"#ACA069";break;
         case 4:"#86c6fd";break;
         case 5:"#d4d8dc";break;
-        default:Qt.rgba(0.5,0.5,0.5,0.01);break;
+        default:Qt.rgba(0.5,0.5,0.5,0.00);break;
     }
     }
 
-    border.color:"gray"
+    border.color:"blue"
 
 
 
@@ -112,11 +112,11 @@ MouseArea {
     anchors.fill:parent
     onClicked:cf_tile =current_cf,base_tile = current_base,cw_tile = current_cw
     onDoubleClicked: if(quickfill == 1) {quickfill = 0} else {quickfill = 1,cf_tile =current_cf,base_tile = current_base,cw_tile = current_cw}
-
-    hoverEnabled: if(currentlayer == 1) {true} else {false}
+    //onReleased:quickfill = 0
+    hoverEnabled: true
     onEntered: if(quickfill == 1) {cf_tile =current_cf,base_tile = current_base,cw_tile = current_cw}
+    //onPressAndHold: toolbox.state = "Show",toolbox.x =parent.x +parent.width,toolbox.y = parent.y - parent.height
 
-    enabled: if(currentlayer == 1) {true} else {false}
 
 }
 
